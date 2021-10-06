@@ -28,6 +28,8 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
-    port: 9999,
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
   },
 };
