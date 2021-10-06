@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "my first prototype project with webgpu.",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config webpack.build.config.js",
     "start": "webpack-dev-server"
   },
   "repository": {
