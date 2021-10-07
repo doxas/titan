@@ -37,12 +37,17 @@ export class Vec2 {
   }
 
   /** chain method */
-  set(x = 0.0, y = 0.0): Vec2 {
+  set(x: number, y: number): Vec2 {
     this.x = x;
     this.y = y;
     return this;
   }
-  copy(v: Vec2) {
+  setScalar(v: number): Vec2 {
+    this.x = v;
+    this.y = v;
+    return this;
+  }
+  copy(v: Vec2): Vec2 {
     this.x = v.x;
     this.y = v.y;
     return this;
@@ -90,9 +95,6 @@ export class Vec2 {
   /** method */
   clone(): Vec2 {
     return new Vec2(this.x, this.y);
-  }
-  get(): Vec2 {
-    return this.clone();
   }
   addScalar(v: number): Vec2 {
     return new Vec2(
