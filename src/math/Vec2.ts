@@ -1,5 +1,22 @@
 
 export class Vec2 {
+  /** static getter */
+  static get ELEMENT_COUNT(): number {return 2;}
+
+  /** static method */
+  static sum(v: Vec2): number {
+    return v.x + v.y;
+  }
+  static difference(v: Vec2): number {
+    return v.x - v.y;
+  }
+  static product(v: Vec2): number {
+    return v.x * v.y;
+  }
+  static quotient(v: Vec2): number {
+    return v.x / v.y;
+  }
+
   /** getter */
   get x(): number {return this.value[0];}
   get y(): number {return this.value[1];}
@@ -11,7 +28,7 @@ export class Vec2 {
   set x(v: number) {this.value[0] = v;}
   set y(v: number) {this.value[1] = v;}
 
-  /** properties */
+  /** property */
   private value = new Float32Array(2);
 
   /** constructor */
@@ -77,6 +94,30 @@ export class Vec2 {
   get(): Vec2 {
     return this.clone();
   }
+  addScalar(v: number): Vec2 {
+    return new Vec2(
+      this.x + v,
+      this.y + v,
+    );
+  }
+  subScalar(v: number): Vec2 {
+    return new Vec2(
+      this.x - v,
+      this.y - v,
+    );
+  }
+  mulScalar(v: number): Vec2 {
+    return new Vec2(
+      this.x * v,
+      this.y * v,
+    );
+  }
+  divScalar(v: number): Vec2 {
+    return new Vec2(
+      this.x / v,
+      this.y / v,
+    );
+  }
   addVec2(v: Vec2): Vec2 {
     return new Vec2(
       this.x + v.x,
@@ -108,9 +149,6 @@ export class Vec2 {
       this.y + diff.y * time,
     );
   }
-  equals(v: Vec2): boolean {
-    return this.x === v.x && this.y === v.y;
-  }
   distance(v: Vec2): number {
     return v.clone().sub(this).length;
   }
@@ -119,5 +157,8 @@ export class Vec2 {
   }
   cross(v: Vec2): number {
     return this.x * v.y - this.y * v.x;
+  }
+  equals(v: Vec2): boolean {
+    return this.x === v.x && this.y === v.y;
   }
 }
