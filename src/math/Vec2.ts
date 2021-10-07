@@ -4,18 +4,6 @@ export class Vec2 {
   static get ELEMENT_COUNT(): number {return 2;}
 
   /** static method */
-  static sum(v: Vec2): number {
-    return v.x + v.y;
-  }
-  static difference(v: Vec2): number {
-    return v.x - v.y;
-  }
-  static product(v: Vec2): number {
-    return v.x * v.y;
-  }
-  static quotient(v: Vec2): number {
-    return v.x / v.y;
-  }
 
   /** getter */
   get x(): number {return this.value[0];}
@@ -32,7 +20,7 @@ export class Vec2 {
   private value = new Float32Array(2);
 
   /** constructor */
-  constructor(x = 0.0, y = 0.0) {
+  constructor(x: number = 0.0, y: number = 0.0) {
     this.set(x, y);
   }
 
@@ -42,9 +30,9 @@ export class Vec2 {
     this.y = y;
     return this;
   }
-  setScalar(v: number): Vec2 {
-    this.x = v;
-    this.y = v;
+  setScalar(scalar: number): Vec2 {
+    this.x = scalar;
+    this.y = scalar;
     return this;
   }
   copy(v: Vec2): Vec2 {
@@ -93,6 +81,18 @@ export class Vec2 {
   }
 
   /** method */
+  sum(): number {
+    return this.x + this.y;
+  }
+  difference(): number {
+    return this.x - this.y;
+  }
+  product(): number {
+    return this.x * this.y;
+  }
+  quotient(): number {
+    return this.x / this.y;
+  }
   clone(): Vec2 {
     return new Vec2(this.x, this.y);
   }
