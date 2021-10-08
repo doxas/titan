@@ -1,30 +1,30 @@
 
 export class Vec2 {
-  /** static getter */
-  static get ELEMENT_COUNT(): number {return 2;}
+  /** static getter ========================================================= */
+  static get DIMENSION_COUNT(): number {return 2;}
 
-  /** static method */
+  /** static method ========================================================= */
 
-  /** getter */
+  /** getter ================================================================ */
   get x(): number {return this.value[0];}
   get y(): number {return this.value[1];}
   get length(): number {
     return Math.sqrt(this.x * this.x + this.y + this.y);
   }
 
-  /** setter */
+  /** setter ================================================================ */
   set x(v: number) {this.value[0] = v;}
   set y(v: number) {this.value[1] = v;}
 
-  /** property */
+  /** property ============================================================== */
   private value = new Float32Array(2);
 
-  /** constructor */
+  /** constructor =========================================================== */
   constructor(x: number = 0.0, y: number = 0.0) {
     this.set(x, y);
   }
 
-  /** chain method */
+  /** chain method ========================================================== */
   set(x: number, y: number): Vec2 {
     this.x = x;
     this.y = y;
@@ -60,10 +60,10 @@ export class Vec2 {
     this.y /= v.y;
     return this;
   }
-  lerp(time: number, v: Vec2): Vec2 {
+  lerp(t: number, v: Vec2): Vec2 {
     const diff = v.subVec2(this);
-    this.x = this.x + diff.x * time;
-    this.y = this.y + diff.y * time;
+    this.x = this.x + diff.x * t;
+    this.y = this.y + diff.y * t;
     return this;
   }
   normalize(): Vec2 {
@@ -80,7 +80,7 @@ export class Vec2 {
     return this;
   }
 
-  /** method */
+  /** method ================================================================ */
   sum(): number {
     return this.x + this.y;
   }
@@ -144,11 +144,11 @@ export class Vec2 {
       this.y / v.y,
     );
   }
-  lerpVec2(time: number, v: Vec2): Vec2 {
+  lerpVec2(t: number, v: Vec2): Vec2 {
     const diff = v.subVec2(this);
     return new Vec2(
-      this.x + diff.x * time,
-      this.y + diff.y * time,
+      this.x + diff.x * t,
+      this.y + diff.y * t,
     );
   }
   distance(v: Vec2): number {
