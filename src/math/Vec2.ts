@@ -102,7 +102,7 @@ export class Vec2 {
     this.y = -this.y;
     return this;
   }
-  inverse(): Vec2 {
+  invert(): Vec2 {
     this.x = 1.0 / this.x;
     this.y = 1.0 / this.y;
     return this;
@@ -153,6 +153,12 @@ export class Vec2 {
   }
   normalizeClone(): Vec2 {
     return this.clone().normalize();
+  }
+  negateClone(): Vec2 {
+    return this.clone().negate();
+  }
+  invertClone(): Vec2 {
+    return this.clone().invert();
   }
   distance(v: Vec2): number {
     return v.clone().sub(this).length;
