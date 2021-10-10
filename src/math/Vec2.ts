@@ -17,7 +17,7 @@ export class Vec2 {
   set y(v: number) {this.value[1] = v;}
 
   /** property ============================================================== */
-  private value = new Float32Array(2);
+  private value = new Float32Array(Vec2.DIMENSION_COUNT);
 
   /** constructor =========================================================== */
   constructor(x: number = 0.0, y: number = 0.0) {
