@@ -1,4 +1,6 @@
 
+import { ForEach } from "../Common/Signature";
+
 export class Vec2 {
   /** static getter ========================================================= */
   static get DIMENSION_COUNT(): number {return 2;}
@@ -167,5 +169,8 @@ export class Vec2 {
   }
   equals(v: Vec2): boolean {
     return this.x === v.x && this.y === v.y;
+  }
+  forEach(callback: ForEach, thisArg?: any): void {
+    [this.x, this.y].forEach(callback, thisArg);
   }
 }
