@@ -67,8 +67,8 @@ export class Vec2 {
     return this;
   }
   normalize(): Vec2 {
-    if(this.length !== 0.0) {
-      const length = this.length;
+    const length = this.length;
+    if(length !== 0.0) {
       this.x /= length;
       this.y /= length;
     }
