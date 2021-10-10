@@ -91,6 +91,12 @@ export class Vec3 {
     this.z = -this.z;
     return this;
   }
+  inverse(): Vec3 {
+    this.x = 1.0 / this.x;
+    this.y = 1.0 / this.y;
+    this.z = 1.0 / this.z;
+    return this;
+  }
 
   /** method ================================================================ */
   sum(): number {

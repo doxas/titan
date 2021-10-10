@@ -79,6 +79,11 @@ export class Vec2 {
     this.y = -this.y;
     return this;
   }
+  inverse(): Vec2 {
+    this.x = 1.0 / this.x;
+    this.y = 1.0 / this.y;
+    return this;
+  }
 
   /** method ================================================================ */
   sum(): number {
