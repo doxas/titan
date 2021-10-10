@@ -196,7 +196,13 @@ export class Vec3 {
   equals(v: Vec3): boolean {
     return this.x === v.x && this.y === v.y && this.z === v.z;
   }
+  toArray(): number[] {
+    return [this.x, this.y, this.z];
+  }
+  toString(separator?: string): string {
+    return this.toArray().join(separator);
+  }
   forEach(callback: ForEach, thisArg?: any): void {
-    [this.x, this.y, this.z].forEach(callback, thisArg);
+    this.toArray().forEach(callback, thisArg);
   }
 }
