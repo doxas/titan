@@ -81,8 +81,36 @@ export class Vec4 {
     this.w /= v.w;
     return this;
   }
+  addScalar(v: number): Vec4 {
+    this.x += v;
+    this.y += v;
+    this.z += v;
+    this.w += v;
+    return this;
+  }
+  subScalar(v: number): Vec4 {
+    this.x -= v;
+    this.y -= v;
+    this.z -= v;
+    this.w -= v;
+    return this;
+  }
+  mulScalar(v: number): Vec4 {
+    this.x *= v;
+    this.y *= v;
+    this.z *= v;
+    this.w *= v;
+    return this;
+  }
+  divScalar(v: number): Vec4 {
+    this.x /= v;
+    this.y /= v;
+    this.z /= v;
+    this.w /= v;
+    return this;
+  }
   lerp(t: number, v: Vec4): Vec4 {
-    const diff = v.subVec4(this);
+    const diff = v.subClone(this);
     this.x = this.x + diff.x * t;
     this.y = this.y + diff.y * t;
     this.z = this.z + diff.z * t;
@@ -130,78 +158,35 @@ export class Vec4 {
   clone(): Vec4 {
     return new Vec4(this.x, this.y, this.z, this.w);
   }
-  addScalar(v: number): Vec4 {
-    return new Vec4(
-      this.x + v,
-      this.y + v,
-      this.z + v,
-      this.w + v,
-    );
+  addClone(v: Vec4): Vec4 {
+    return this.clone().add(v);
   }
-  subScalar(v: number): Vec4 {
-    return new Vec4(
-      this.x - v,
-      this.y - v,
-      this.z - v,
-      this.w - v,
-    );
+  subClone(v: Vec4): Vec4 {
+    return this.clone().sub(v);
   }
-  mulScalar(v: number): Vec4 {
-    return new Vec4(
-      this.x * v,
-      this.y * v,
-      this.z * v,
-      this.w * v,
-    );
+  mulClone(v: Vec4): Vec4 {
+    return this.clone().mul(v);
   }
-  divScalar(v: number): Vec4 {
-    return new Vec4(
-      this.x / v,
-      this.y / v,
-      this.z / v,
-      this.w / v,
-    );
+  divClone(v: Vec4): Vec4 {
+    return this.clone().div(v);
   }
-  addVec4(v: Vec4): Vec4 {
-    return new Vec4(
-      this.x + v.x,
-      this.y + v.y,
-      this.z + v.z,
-      this.w + v.w,
-    );
+  addScalarClone(v: number): Vec4 {
+    return this.clone().addScalar(v);
   }
-  subVec4(v: Vec4): Vec4 {
-    return new Vec4(
-      this.x - v.x,
-      this.y - v.y,
-      this.z - v.z,
-      this.w - v.w,
-    );
+  subScalarClone(v: number): Vec4 {
+    return this.clone().subScalar(v);
   }
-  mulVec4(v: Vec4): Vec4 {
-    return new Vec4(
-      this.x * v.x,
-      this.y * v.y,
-      this.z * v.z,
-      this.w * v.w,
-    );
+  mulScalarClone(v: number): Vec4 {
+    return this.clone().mulScalar(v);
   }
-  divVec4(v: Vec4): Vec4 {
-    return new Vec4(
-      this.x / v.x,
-      this.y / v.y,
-      this.z / v.z,
-      this.w / v.w,
-    );
+  divScalarClone(v: number): Vec4 {
+    return this.clone().divScalar(v);
   }
-  lerpVec4(t: number, v: Vec4): Vec4 {
-    const diff = v.subVec4(this);
-    return new Vec4(
-      this.x + diff.x * t,
-      this.y + diff.y * t,
-      this.z + diff.z * t,
-      this.w + diff.w * t,
-    );
+  lerpClone(t: number, v: Vec4): Vec4 {
+    return this.clone().lerp(t, v);
+  }
+  normalizeClone(): Vec4 {
+    return this.clone().normalize();
   }
   distance(v: Vec4): number {
     return v.clone().sub(this).length;
