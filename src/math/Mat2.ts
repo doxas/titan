@@ -7,6 +7,8 @@ export class Mat2 {
   static get DIMENSION_COUNT(): number {return 2;}
 
   /** static method ========================================================= */
+  static zero(): Mat2 {return new Mat2(0.0, 0.0, 0.0, 0.0);}
+  static identityMatrix(): Mat2 {return new Mat2().identity();}
 
   /** getter ================================================================ */
   get m00(): number {return this.value[0];}

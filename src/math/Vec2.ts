@@ -6,6 +6,7 @@ export class Vec2 {
   static get DIMENSION_COUNT(): number {return 2;}
 
   /** static method ========================================================= */
+  static zero(): Vec2 {return new Vec2(0.0, 0.0);}
 
   /** getter ================================================================ */
   get x(): number {return this.value[0];}
