@@ -87,13 +87,6 @@ export class Mat2 {
     this.m11 = m01 * v.m10 + m11 * v.m11;
     return this;
   }
-  scale(v: Vec2): Mat2 {
-    this.m00 *= v.x;
-    this.m01 *= v.x;
-    this.m10 *= v.y;
-    this.m11 *= v.y;
-    return this;
-  }
   rotate(radian: number): Mat2 {
     const m00 = this.m00;
     const m01 = this.m01;
@@ -105,6 +98,13 @@ export class Mat2 {
     this.m01 = m01 *  cos + m11 * sin;
     this.m10 = m00 * -sin + m10 * cos;
     this.m11 = m01 * -sin + m11 * cos;
+    return this;
+  }
+  scale(v: Vec2): Mat2 {
+    this.m00 *= v.x;
+    this.m01 *= v.x;
+    this.m10 *= v.y;
+    this.m11 *= v.y;
     return this;
   }
   invert(): Mat2 {
@@ -151,11 +151,11 @@ export class Mat2 {
   multiplyClone(v: Mat2): Mat2 {
     return this.clone().multiply(v);
   }
-  scaleClone(v: Vec2): Mat2 {
-    return this.clone().scale(v);
-  }
   rotateClone(radian: number): Mat2 {
     return this.clone().rotate(radian);
+  }
+  scaleClone(v: Vec2): Mat2 {
+    return this.clone().scale(v);
   }
   invertClone(): Mat2 {
     return this.clone().invert();
