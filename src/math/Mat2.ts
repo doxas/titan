@@ -133,7 +133,7 @@ export class Mat2 {
   }
   fromScalling(scale: number): Mat2 {
     this.m00 = scale;
-    this.m00 = 0.0;
+    this.m01 = 0.0;
     this.m10 = 0.0;
     this.m11 = scale;
     return this;
