@@ -175,7 +175,7 @@ export class Vec2 {
   toArray(): number[] {
     return [this.x, this.y];
   }
-  toString(separator?: string): string {
+  toString(separator: string = ','): string {
     return this.toArray().join(separator);
   }
   forEach(callback: ForEach, thisArg?: any): void {

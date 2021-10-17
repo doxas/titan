@@ -176,7 +176,7 @@ export class Mat2 {
   toArray(): number[] {
     return [this.m00, this.m01, this.m10, this.m11];
   }
-  toString(separator?: string): string {
+  toString(separator: string = ','): string {
     return this.toArray().join(separator);
   }
   forEach(callback: ForEach, thisArg?: any): void {

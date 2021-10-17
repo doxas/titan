@@ -206,7 +206,7 @@ export class Vec4 {
   toArray(): number[] {
     return [this.x, this.y, this.z, this.w];
   }
-  toString(separator?: string): string {
+  toString(separator: string = ','): string {
     return this.toArray().join(separator);
   }
   forEach(callback: ForEach, thisArg?: any): void {

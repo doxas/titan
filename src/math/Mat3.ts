@@ -327,7 +327,7 @@ export class Mat3 {
       this.m22,
     ];
   }
-  toString(separator?: string): string {
+  toString(separator: string = ','): string {
     return this.toArray().join(separator);
   }
   forEach(callback: ForEach, thisArg?: any): void {
