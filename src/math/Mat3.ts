@@ -207,12 +207,13 @@ export class Mat3 {
     const m20 = this.m20;
     const m21 = this.m21;
     const m22 = this.m22;
-    const determinant = this.determinant();
+
+    const a =  m22 * m11 - m12 * m21;
+    const b = -m22 * m10 + m12 * m20;
+    const c =  m21 * m10 - m11 * m20;
+    const determinant = this.m00 * a + this.m01 * b + this.m02 * c;
     if(determinant !== 0.0) {
       const inverseDeterminant = 1.0 / determinant;
-      const a =  m22 * m11 - m12 * m21;
-      const b = -m22 * m10 + m12 * m20;
-      const c =  m21 * m10 - m11 * m20;
       this.m00 = a * inverseDeterminant;
       this.m01 = (-m22 * m01 + m02 * m21) * inverseDeterminant;
       this.m02 = ( m12 * m01 - m02 * m11) * inverseDeterminant;
