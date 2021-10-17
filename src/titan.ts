@@ -1,10 +1,10 @@
 
-import { Vec2 } from './math/Vec2';
-import { Vec3 } from './math/Vec3';
-import { Vec4 } from './math/Vec4';
-import { Mat2 } from './math/Mat2';
-import { Mat3 } from './math/Mat3';
-import { Mat4 } from './math/Mat4';
+import { Vec2 } from './Math/Vec2';
+import { Vec3 } from './Math/Vec3';
+import { Vec4 } from './Math/Vec4';
+import { Mat2 } from './Math/Mat2';
+import { Mat3 } from './Math/Mat3';
+import { Mat4 } from './Math/Mat4';
 
 export class TITAN {
   static get Vec2() {return Vec2;}
