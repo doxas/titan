@@ -1,5 +1,6 @@
 
 import { ForEach } from "../Common/Signature";
+import { Mat4 } from "./Mat4";
 import { Vec2 } from "./Vec2";
 
 export class Mat2 {
@@ -9,6 +10,24 @@ export class Mat2 {
   /** static method ========================================================= */
   static zero(): Mat2 {return new Mat2(0.0, 0.0, 0.0, 0.0);}
   static identityMatrix(): Mat2 {return new Mat2().identity();}
+  static fromRotation(radian: number): Mat2 {
+    const out = new Mat2();
+    const sin = Math.sin(radian);
+    const cos = Math.cos(radian);
+    out.m00 =  cos;
+    out.m01 =  sin;
+    out.m10 = -sin;
+    out.m11 =  cos;
+    return out;
+  }
+  static fromScalling(scale: number): Mat2 {
+    const out = new Mat2();
+    out.m00 = scale;
+    out.m01 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = scale;
+    return out;
+  }
 
   /** getter ================================================================ */
   get m00(): number {return this.value[0];}
@@ -120,22 +139,6 @@ export class Mat2 {
       this.m10 = -m10 * inverseDeterminant;
       this.m11 =  m00 * inverseDeterminant;
     }
-    return this;
-  }
-  fromRotation(radian: number): Mat2 {
-    const sin = Math.sin(radian);
-    const cos = Math.cos(radian);
-    this.m00 =  cos;
-    this.m01 =  sin;
-    this.m10 = -sin;
-    this.m11 =  cos;
-    return this;
-  }
-  fromScalling(scale: number): Mat2 {
-    this.m00 = scale;
-    this.m01 = 0.0;
-    this.m10 = 0.0;
-    this.m11 = scale;
     return this;
   }
 
