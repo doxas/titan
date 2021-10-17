@@ -161,7 +161,7 @@ export class Vec2 {
     return this.clone().invert();
   }
   distance(v: Vec2): number {
-    return v.clone().sub(this).length;
+    return v.subClone(this).length;
   }
   dot(v: Vec2): number {
     return this.x * v.x + this.y * v.y;
