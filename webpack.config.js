@@ -16,7 +16,7 @@ module.exports = {
         test: /\.ts$/,
         use: 'ts-loader',
       }, {
-        test: /\.(vert|frag|comp)$/,
+        test: /\.(vert|frag|comp|wgsl)$/,
         use: 'raw-loader',
       }
     ],
