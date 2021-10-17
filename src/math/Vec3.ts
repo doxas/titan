@@ -13,7 +13,7 @@ export class Vec3 {
   get y(): number {return this.value[1];}
   get z(): number {return this.value[2];}
   get length(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    return Math.hypot(this.x, this.y, this.z);
   }
 
   /** setter ================================================================ */

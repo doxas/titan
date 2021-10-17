@@ -12,7 +12,7 @@ export class Vec2 {
   get x(): number {return this.value[0];}
   get y(): number {return this.value[1];}
   get length(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
+    return Math.hypot(this.x, this.y);
   }
 
   /** setter ================================================================ */

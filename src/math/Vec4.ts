@@ -14,7 +14,7 @@ export class Vec4 {
   get z(): number {return this.value[2];}
   get w(): number {return this.value[3];}
   get length(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
+    return Math.hypot(this.x, this.y, this.z, this.w);
   }
 
   /** setter ================================================================ */
