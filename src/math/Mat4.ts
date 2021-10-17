@@ -223,6 +223,38 @@ export class Mat4 {
     // with WebGPU: device coord range from 0.0 to 1.0
     return Mat4.orthoOP(left, right, bottom, top, near, far);
   }
+  static lookAt(eye: Vec3, center: Vec3, up: Vec3): Mat4 {
+    const out = new Mat4();
+    const normal = eye.subClone(center).normalize();
+    const z0 = normal.x;
+    const z1 = normal.y;
+    const z2 = normal.z;
+    const tangent = up.cross(normal).normalize();
+    const x0 = tangent.x;
+    const x1 = tangent.y;
+    const x2 = tangent.z;
+    const binormal = normal.cross(tangent).normalize();
+    const y0 = binormal.x;
+    const y1 = binormal.y;
+    const y2 = binormal.z;
+    out.m00 = x0;
+    out.m01 = y0;
+    out.m02 = z0;
+    out.m03 = 0.0;
+    out.m10 = x1;
+    out.m11 = y1;
+    out.m12 = z1;
+    out.m13 = 0.0;
+    out.m20 = x2;
+    out.m21 = y2;
+    out.m22 = z2;
+    out.m23 = 0.0;
+    out.m30 = -(x0 * eye.x + x1 * eye.y + x2 * eye.z);
+    out.m31 = -(y0 * eye.x + y1 * eye.y + y2 * eye.z);
+    out.m32 = -(z0 * eye.x + z1 * eye.y + z2 * eye.z);
+    out.m33 = 1.0;
+    return out;
+  }
 
   /** getter ================================================================ */
   get m00(): number {return this.value[ 0];}
