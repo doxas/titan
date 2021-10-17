@@ -13,6 +13,47 @@ export class Mat3 {
     0.0, 0.0, 0.0,
   );}
   static identityMatrix(): Mat3 {return new Mat3().identity();}
+  static fromTranslation(v: Vec2): Mat3 {
+    const out = new Mat3();
+    out.m00 = 1.0;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = 1.0;
+    out.m12 = 0.0;
+    out.m20 = v.x;
+    out.m21 = v.y;
+    out.m22 = 1.0;
+    return out;
+  }
+  static fromRotation(radian: number): Mat3 {
+    const out = new Mat3();
+    const sin = Math.sin(radian);
+    const cos = Math.cos(radian);
+    out.m00 =  cos;
+    out.m01 =  sin;
+    out.m02 =  0.0;
+    out.m10 = -sin;
+    out.m11 =  cos;
+    out.m12 =  0.0;
+    out.m20 =  0.0;
+    out.m21 =  0.0;
+    out.m22 =  1.0;
+    return out;
+  }
+  fromScalling(v: Vec2): Mat3 {
+    const out = new Mat3();
+    out.m00 = v.x;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = v.y;
+    out.m12 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22 = 1.0;
+    return out;
+  }
 
   /** getter ================================================================ */
   get m00(): number {return this.value[0];}
@@ -221,44 +262,6 @@ export class Mat3 {
       this.m21 = (-m21 * m00 + m01 * m20) * inverseDeterminant;
       this.m22 = ( m11 * m00 - m01 * m10) * inverseDeterminant;
     }
-    return this;
-  }
-  fromTranslation(v: Vec2): Mat3 {
-    this.m00 = 1.0;
-    this.m01 = 0.0;
-    this.m02 = 0.0;
-    this.m10 = 0.0;
-    this.m11 = 1.0;
-    this.m12 = 0.0;
-    this.m20 = v.x;
-    this.m21 = v.y;
-    this.m22 = 1.0;
-    return this;
-  }
-  fromRotation(radian: number): Mat3 {
-    const sin = Math.sin(radian);
-    const cos = Math.cos(radian);
-    this.m00 =  cos;
-    this.m01 =  sin;
-    this.m02 =  0.0;
-    this.m10 = -sin;
-    this.m11 =  cos;
-    this.m12 =  0.0;
-    this.m20 =  0.0;
-    this.m21 =  0.0;
-    this.m22 =  1.0;
-    return this;
-  }
-  fromScalling(v: Vec2): Mat3 {
-    this.m00 = v.x;
-    this.m01 = 0.0;
-    this.m02 = 0.0;
-    this.m10 = 0.0;
-    this.m11 = v.y;
-    this.m12 = 0.0;
-    this.m20 = 0.0;
-    this.m21 = 0.0;
-    this.m22 = 1.0;
     return this;
   }
 
