@@ -14,6 +14,215 @@ export class Mat4 {
     0.0, 0.0, 0.0, 0.0,
   );}
   static identityMatrix(): Mat4 {return new Mat4().identity();}
+  static fromTranslation(v: Vec3): Mat4 {
+    const out = new Mat4();
+    out.m00 = 1.0;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = 1.0;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22 = 1.0;
+    out.m23 = 0.0;
+    out.m20 = v.x;
+    out.m21 = v.y;
+    out.m22 = v.z;
+    out.m23 = 1.0;
+    return out;
+  }
+  static fromRotation(radian: number, axis: Vec3): Mat4 {
+    const out = new Mat4();
+    const axisLength = axis.length;
+    if(axisLength !== 0.0){
+      const sin = Math.sin(radian);
+      const cos = Math.cos(radian);
+      const inv = 1.0 - cos;
+      const normalizedAxis = axis.normalizeClone();
+      const nx = normalizedAxis.x;
+      const ny = normalizedAxis.y;
+      const nz = normalizedAxis.z;
+      out.m00 = nx * nx * inv + cos;
+      out.m01 = ny * nx * inv + nz * sin;
+      out.m02 = nz * nx * inv - ny * sin;
+      out.m03 = 0.0;
+      out.m10 = nx * ny * inv - nz * sin;
+      out.m11 = ny * ny * inv + cos;
+      out.m12 = nz * ny * inv + nx * sin;
+      out.m13 = 0.0;
+      out.m20 = nx * nz * inv + ny * sin;
+      out.m21 = ny * nz * inv - nx * sin;
+      out.m22 = nz * nz * inv + cos;
+      out.m23 = 0.0;
+      out.m30 = 0.0;
+      out.m31 = 0.0;
+      out.m32 = 0.0;
+      out.m33 = 1.0;
+    }
+    return out;
+  }
+  static fromScalling(v: Vec3): Mat4 {
+    const out = new Mat4();
+    out.m00 = v.x;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = v.y;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22 = v.z;
+    out.m23 = 0.0;
+    out.m30 = 0.0;
+    out.m31 = 0.0;
+    out.m32 = 0.0;
+    out.m33 = 1.0;
+    return out;
+  }
+  static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4 {
+    const out = new Mat4();
+    const diffRL = 1.0 / (right - left);
+    const diffTB = 1.0 / (top - bottom);
+    const diffNF = 1.0 / (near - far);
+    out.m00 = near * 2.0 * diffRL;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = near * 2.0 * diffTB;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = (right + left) * diffRL;
+    out.m21 = (top + bottom) * diffTB;
+    out.m22 = (far + near) * diffNF;
+    out.m23 = -1.0;
+    out.m30 = 0.0;
+    out.m31 = 0.0;
+    out.m32 = far * near * 2.0 * diffNF;
+    out.m33 = 0.0;
+    return out;
+  }
+  // negative to positive
+  static perspectiveNP(fovy: number, aspect: number, near: number, far: number): Mat4 {
+    const out = new Mat4();
+    const f = 1.0 / Math.tan(fovy / 2.0);
+    out.m00 = f / aspect;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = f;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22
+    out.m23 = -1.0;
+    out.m30 = 0.0;
+    out.m31 = 0.0;
+    out.m32
+    out.m33 = 0.0;
+    if(far != null && far !== Infinity) {
+      const diffNF = 1.0 / (near - far);
+      out.m22 = (far + near) * diffNF;
+      out.m32 = 2.0 * far * near * diffNF;
+    } else {
+      out.m22 = -1.0;
+      out.m32 = -2.0 * near;
+    }
+    return out;
+  }
+  // origin to positive
+  static perspectiveOP(fovy: number, aspect: number, near: number, far: number): Mat4 {
+    const out = new Mat4();
+    const f = 1.0 / Math.tan(fovy / 2.0);
+    out.m00 = f / aspect;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = f;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22
+    out.m23 = -1.0;
+    out.m30 = 0.0;
+    out.m31 = 0.0;
+    out.m32
+    out.m33 = 0.0;
+    if(far != null && far !== Infinity) {
+      const diffNF = 1.0 / (near - far);
+      out.m22 = far * diffNF;
+      out.m32 = far * near * diffNF;
+    } else {
+      out.m22 = -1.0;
+      out.m32 = -near;
+    }
+    return out;
+  }
+  static perspective(fovy: number, aspect: number, near: number, far: number): Mat4 {
+    // with WebGPU: device coord range from 0.0 to 1.0
+    return Mat4.perspectiveOP(fovy, aspect, near, far);
+  }
+  // negative to positive
+  static orthoNP(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4 {
+    const out = new Mat4();
+    const diffLR = 1.0 / (left - right);
+    const diffBT = 1.0 / (bottom - top);
+    const diffNF = 1.0 / (near - far);
+    out.m00 = -2.0 * diffLR;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = -2.0 * diffBT;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22 = 2.0 * diffNF;
+    out.m23 = 0.0;
+    out.m30 = (left + right) * diffLR;
+    out.m31 = (bottom + top) * diffBT;
+    out.m32 = (far + near) * diffNF;
+    out.m33 = 1.0;
+    return out;
+  }
+  // origin to positive
+  static orthoOP(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4 {
+    const out = new Mat4();
+    const diffLR = 1.0 / (left - right);
+    const diffBT = 1.0 / (bottom - top);
+    const diffNF = 1.0 / (near - far);
+    out.m00 = -2.0 * diffLR;
+    out.m01 = 0.0;
+    out.m02 = 0.0;
+    out.m03 = 0.0;
+    out.m10 = 0.0;
+    out.m11 = -2.0 * diffBT;
+    out.m12 = 0.0;
+    out.m13 = 0.0;
+    out.m20 = 0.0;
+    out.m21 = 0.0;
+    out.m22 = diffNF;
+    out.m23 = 0.0;
+    out.m30 = (left + right) * diffLR;
+    out.m31 = (bottom + top) * diffBT;
+    out.m32 = near * diffNF;
+    out.m33 = 1.0;
+    return out;
+  }
+  static ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4 {
+    // with WebGPU: device coord range from 0.0 to 1.0
+    return Mat4.orthoOP(left, right, bottom, top, near, far);
+  }
 
   /** getter ================================================================ */
   get m00(): number {return this.value[ 0];}
@@ -371,73 +580,6 @@ export class Mat4 {
       this.m32 = (m31 * b - m30 * d - m32 * a) * inverseDeterminant;
       this.m33 = (m20 * d - m21 * b + m22 * a) * inverseDeterminant;
     }
-    return this;
-  }
-  fromTranslation(v: Vec3): Mat4 {
-    this.m00 = 1.0;
-    this.m01 = 0.0;
-    this.m02 = 0.0;
-    this.m03 = 0.0;
-    this.m10 = 0.0;
-    this.m11 = 1.0;
-    this.m12 = 0.0;
-    this.m13 = 0.0;
-    this.m20 = 0.0;
-    this.m21 = 0.0;
-    this.m22 = 1.0;
-    this.m23 = 0.0;
-    this.m20 = v.x;
-    this.m21 = v.y;
-    this.m22 = v.z;
-    this.m23 = 1.0;
-    return this;
-  }
-  fromRotation(radian: number, axis: Vec3): Mat4 {
-    const axisLength = axis.length;
-    if(axisLength !== 0.0){
-      const sin = Math.sin(radian);
-      const cos = Math.cos(radian);
-      const inv = 1.0 - cos;
-      const normalizedAxis = axis.normalizeClone();
-      const nx = normalizedAxis.x;
-      const ny = normalizedAxis.y;
-      const nz = normalizedAxis.z;
-      this.m00 = nx * nx * inv + cos;
-      this.m01 = ny * nx * inv + nz * sin;
-      this.m02 = nz * nx * inv - ny * sin;
-      this.m03 = 0.0;
-      this.m10 = nx * ny * inv - nz * sin;
-      this.m11 = ny * ny * inv + cos;
-      this.m12 = nz * ny * inv + nx * sin;
-      this.m13 = 0.0;
-      this.m20 = nx * nz * inv + ny * sin;
-      this.m21 = ny * nz * inv - nx * sin;
-      this.m22 = nz * nz * inv + cos;
-      this.m23 = 0.0;
-      this.m30 = 0.0;
-      this.m31 = 0.0;
-      this.m32 = 0.0;
-      this.m33 = 1.0;
-    }
-    return this;
-  }
-  fromScalling(v: Vec3): Mat4 {
-    this.m00 = v.x;
-    this.m01 = 0.0;
-    this.m02 = 0.0;
-    this.m03 = 0.0;
-    this.m10 = 0.0;
-    this.m11 = v.y;
-    this.m12 = 0.0;
-    this.m13 = 0.0;
-    this.m20 = 0.0;
-    this.m21 = 0.0;
-    this.m22 = v.z;
-    this.m23 = 0.0;
-    this.m30 = 0.0;
-    this.m31 = 0.0;
-    this.m32 = 0.0;
-    this.m33 = 1.0;
     return this;
   }
 
