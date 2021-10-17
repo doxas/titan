@@ -206,92 +206,170 @@ export class Mat4 {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
+    const m03 = this.m03;
     const m10 = this.m10;
     const m11 = this.m11;
     const m12 = this.m12;
+    const m13 = this.m13;
     const m20 = this.m20;
     const m21 = this.m21;
     const m22 = this.m22;
-    this.m00 = m00 * v.m00 + m10 * v.m01 + m20 * v.m02;
-    this.m01 = m01 * v.m00 + m11 * v.m01 + m21 * v.m02;
-    this.m02 = m02 * v.m00 + m12 * v.m01 + m22 * v.m02;
-    this.m10 = m00 * v.m10 + m10 * v.m11 + m20 * v.m12;
-    this.m11 = m01 * v.m10 + m11 * v.m11 + m21 * v.m12;
-    this.m12 = m02 * v.m10 + m12 * v.m11 + m22 * v.m12;
-    this.m20 = m00 * v.m20 + m10 * v.m21 + m20 * v.m22;
-    this.m21 = m01 * v.m20 + m11 * v.m21 + m21 * v.m22;
-    this.m22 = m02 * v.m20 + m12 * v.m21 + m22 * v.m22;
+    const m23 = this.m23;
+    const m30 = this.m30;
+    const m31 = this.m31;
+    const m32 = this.m32;
+    const m33 = this.m33;
+    this.m00 = m00 * v.m00 + m10 * v.m01 + m20 * v.m02 + m30 * v.m03;
+    this.m01 = m01 * v.m00 + m11 * v.m01 + m21 * v.m02 + m31 * v.m03;
+    this.m02 = m02 * v.m00 + m12 * v.m01 + m22 * v.m02 + m32 * v.m03;
+    this.m03 = m03 * v.m00 + m13 * v.m01 + m23 * v.m02 + m33 * v.m03;
+    this.m10 = m00 * v.m10 + m10 * v.m11 + m20 * v.m12 + m30 * v.m13;
+    this.m11 = m01 * v.m10 + m11 * v.m11 + m21 * v.m12 + m31 * v.m13;
+    this.m12 = m02 * v.m10 + m12 * v.m11 + m22 * v.m12 + m32 * v.m13;
+    this.m13 = m03 * v.m10 + m13 * v.m11 + m23 * v.m12 + m33 * v.m13;
+    this.m20 = m00 * v.m20 + m10 * v.m21 + m20 * v.m22 + m30 * v.m23;
+    this.m21 = m01 * v.m20 + m11 * v.m21 + m21 * v.m22 + m31 * v.m23;
+    this.m22 = m02 * v.m20 + m12 * v.m21 + m22 * v.m22 + m32 * v.m23;
+    this.m23 = m03 * v.m20 + m13 * v.m21 + m23 * v.m22 + m33 * v.m23;
+    this.m30 = m00 * v.m30 + m10 * v.m31 + m20 * v.m32 + m30 * v.m33;
+    this.m31 = m01 * v.m30 + m11 * v.m31 + m21 * v.m32 + m31 * v.m33;
+    this.m32 = m02 * v.m30 + m12 * v.m31 + m22 * v.m32 + m32 * v.m33;
+    this.m33 = m03 * v.m30 + m13 * v.m31 + m23 * v.m32 + m33 * v.m33;
     return this;
   }
   translate(v: Vec3): Mat4 {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
+    const m03 = this.m03;
     const m10 = this.m10;
     const m11 = this.m11;
     const m12 = this.m12;
+    const m13 = this.m13;
     const m20 = this.m20;
     const m21 = this.m21;
     const m22 = this.m22;
-    this.m20 = v.x * m00 + v.y * m10 + m20;
-    this.m21 = v.x * m01 + v.y * m11 + m21;
-    this.m22 = v.x * m02 + v.y * m12 + m22;
+    const m23 = this.m23;
+    const m30 = this.m30;
+    const m31 = this.m31;
+    const m32 = this.m32;
+    const m33 = this.m33;
+    this.m30 = v.x * m00 + v.y * m10 + v.z * m20 + m30;
+    this.m31 = v.x * m01 + v.y * m11 + v.z * m21 + m31;
+    this.m32 = v.x * m02 + v.y * m12 + v.z * m22 + m32;
+    this.m33 = v.x * m03 + v.y * m13 + v.z * m23 + m33;
     return this;
   }
-  rotate(radian: number): Mat4 {
+  rotate(radian: number, axis: Vec3): Mat4 {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
+    const m03 = this.m03;
     const m10 = this.m10;
     const m11 = this.m11;
     const m12 = this.m12;
+    const m13 = this.m13;
     const m20 = this.m20;
     const m21 = this.m21;
     const m22 = this.m22;
-    const sin = Math.sin(radian);
-    const cos = Math.cos(radian);
-    this.m00 = cos * m00 + sin * m10;
-    this.m01 = cos * m01 + sin * m11;
-    this.m02 = cos * m02 + sin * m12;
-    this.m10 = cos * m10 - sin * m00;
-    this.m11 = cos * m11 - sin * m01;
-    this.m12 = cos * m12 - sin * m02;
+    const m23 = this.m23;
+    const axisLength = axis.length;
+    if(axisLength !== 0.0){
+      const sin = Math.sin(radian);
+      const cos = Math.cos(radian);
+      const inv = 1.0 - cos;
+      const normalizedAxis = axis.normalizeClone();
+      const nx = normalizedAxis.x;
+      const ny = normalizedAxis.y;
+      const nz = normalizedAxis.z;
+      const r00 = nx * nx * inv + cos;
+      const r01 = ny * nx * inv + nz * sin;
+      const r02 = nz * nx * inv - ny * sin;
+      const r10 = nx * ny * inv - nz * sin;
+      const r11 = ny * ny * inv + cos;  
+      const r12 = nz * ny * inv + nx * sin;
+      const r20 = nx * nz * inv + ny * sin;
+      const r21 = ny * nz * inv - nx * sin;
+      const r22 = nz * nz * inv + cos;
+      this.m00 = m00 * r00 + m10 * r01 + m20 * r02;
+      this.m01 = m01 * r00 + m11 * r01 + m21 * r02;
+      this.m02 = m02 * r00 + m12 * r01 + m22 * r02;
+      this.m03 = m03 * r00 + m13 * r01 + m23 * r02;
+      this.m10 = m00 * r10 + m10 * r11 + m20 * r12;
+      this.m11 = m01 * r10 + m11 * r11 + m21 * r12;
+      this.m12 = m02 * r10 + m12 * r11 + m22 * r12;
+      this.m13 = m03 * r10 + m13 * r11 + m23 * r12;
+      this.m20 = m00 * r20 + m10 * r21 + m20 * r22;
+      this.m21 = m01 * r20 + m11 * r21 + m21 * r22;
+      this.m22 = m02 * r20 + m12 * r21 + m22 * r22;
+      this.m23 = m03 * r20 + m13 * r21 + m23 * r22;
+    }
     return this;
   }
   scale(v: Vec3): Mat4 {
     this.m00 *= v.x;
     this.m01 *= v.x;
     this.m02 *= v.x;
+    this.m03 *= v.x;
     this.m10 *= v.y;
     this.m11 *= v.y;
     this.m12 *= v.y;
+    this.m13 *= v.y;
+    this.m20 *= v.z;
+    this.m21 *= v.z;
+    this.m22 *= v.z;
+    this.m23 *= v.z;
     return this;
   }
   invert(): Mat4 {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
+    const m03 = this.m03;
     const m10 = this.m10;
     const m11 = this.m11;
     const m12 = this.m12;
+    const m13 = this.m13;
     const m20 = this.m20;
     const m21 = this.m21;
     const m22 = this.m22;
-    const determinant = this.determinant();
+    const m23 = this.m23;
+    const m30 = this.m30;
+    const m31 = this.m31;
+    const m32 = this.m32;
+    const m33 = this.m33;
+
+    const a = m00 * m11 - m01 * m10;
+    const b = m00 * m12 - m02 * m10;
+    const c = m00 * m13 - m03 * m10;
+    const d = m01 * m12 - m02 * m11;
+    const e = m01 * m13 - m03 * m11;
+    const f = m02 * m13 - m03 * m12;
+    const g = m20 * m31 - m21 * m30;
+    const h = m20 * m32 - m22 * m30;
+    const i = m20 * m33 - m23 * m30;
+    const j = m21 * m32 - m22 * m31;
+    const k = m21 * m33 - m23 * m31;
+    const l = m22 * m33 - m23 * m32;
+    const determinant = a * l - b * k + c * j + d * i - e * h + f * g;
     if(determinant !== 0.0) {
       const inverseDeterminant = 1.0 / determinant;
-      const a =  m22 * m11 - m12 * m21;
-      const b = -m22 * m10 + m12 * m20;
-      const c =  m21 * m10 - m11 * m20;
-      this.m00 = a * inverseDeterminant;
-      this.m01 = (-m22 * m01 + m02 * m21) * inverseDeterminant;
-      this.m02 = ( m12 * m01 - m02 * m11) * inverseDeterminant;
-      this.m10 = b * inverseDeterminant;
-      this.m11 = ( m22 * m00 - m02 * m20) * inverseDeterminant;
-      this.m12 = (-m12 * m00 + m02 * m10) * inverseDeterminant;
-      this.m20 = c * inverseDeterminant;
-      this.m21 = (-m21 * m00 + m01 * m20) * inverseDeterminant;
-      this.m22 = ( m11 * m00 - m01 * m10) * inverseDeterminant;
+      this.m00 = (m11 * l - m12 * k + m13 * j) * inverseDeterminant;
+      this.m01 = (m02 * k - m01 * l - m03 * j) * inverseDeterminant;
+      this.m02 = (m31 * f - m32 * e + m33 * d) * inverseDeterminant;
+      this.m03 = (m22 * e - m21 * f - m23 * d) * inverseDeterminant;
+      this.m10 = (m12 * i - m10 * l - m13 * h) * inverseDeterminant;
+      this.m11 = (m00 * l - m02 * i + m03 * h) * inverseDeterminant;
+      this.m12 = (m32 * c - m30 * f - m33 * b) * inverseDeterminant;
+      this.m13 = (m20 * f - m22 * c + m23 * b) * inverseDeterminant;
+      this.m20 = (m10 * k - m11 * i + m13 * g) * inverseDeterminant;
+      this.m21 = (m01 * i - m00 * k - m03 * g) * inverseDeterminant;
+      this.m22 = (m30 * e - m31 * c + m33 * a) * inverseDeterminant;
+      this.m23 = (m21 * c - m20 * e - m23 * a) * inverseDeterminant;
+      this.m30 = (m11 * h - m10 * j - m12 * g) * inverseDeterminant;
+      this.m31 = (m00 * j - m01 * h + m02 * g) * inverseDeterminant;
+      this.m32 = (m31 * b - m30 * d - m32 * a) * inverseDeterminant;
+      this.m33 = (m20 * d - m21 * b + m22 * a) * inverseDeterminant;
     }
     return this;
   }
@@ -299,38 +377,67 @@ export class Mat4 {
     this.m00 = 1.0;
     this.m01 = 0.0;
     this.m02 = 0.0;
+    this.m03 = 0.0;
     this.m10 = 0.0;
     this.m11 = 1.0;
     this.m12 = 0.0;
+    this.m13 = 0.0;
+    this.m20 = 0.0;
+    this.m21 = 0.0;
+    this.m22 = 1.0;
+    this.m23 = 0.0;
     this.m20 = v.x;
     this.m21 = v.y;
-    this.m22 = 1.0;
+    this.m22 = v.z;
+    this.m23 = 1.0;
     return this;
   }
-  fromRotation(radian: number): Mat4 {
-    const sin = Math.sin(radian);
-    const cos = Math.cos(radian);
-    this.m00 =  cos;
-    this.m01 =  sin;
-    this.m02 =  0.0;
-    this.m10 = -sin;
-    this.m11 =  cos;
-    this.m12 =  0.0;
-    this.m20 =  0.0;
-    this.m21 =  0.0;
-    this.m22 =  1.0;
+  fromRotation(radian: number, axis: Vec3): Mat4 {
+    const axisLength = axis.length;
+    if(axisLength !== 0.0){
+      const sin = Math.sin(radian);
+      const cos = Math.cos(radian);
+      const inv = 1.0 - cos;
+      const normalizedAxis = axis.normalizeClone();
+      const nx = normalizedAxis.x;
+      const ny = normalizedAxis.y;
+      const nz = normalizedAxis.z;
+      this.m00 = nx * nx * inv + cos;
+      this.m01 = ny * nx * inv + nz * sin;
+      this.m02 = nz * nx * inv - ny * sin;
+      this.m03 = 0.0;
+      this.m10 = nx * ny * inv - nz * sin;
+      this.m11 = ny * ny * inv + cos;
+      this.m12 = nz * ny * inv + nx * sin;
+      this.m13 = 0.0;
+      this.m20 = nx * nz * inv + ny * sin;
+      this.m21 = ny * nz * inv - nx * sin;
+      this.m22 = nz * nz * inv + cos;
+      this.m23 = 0.0;
+      this.m30 = 0.0;
+      this.m31 = 0.0;
+      this.m32 = 0.0;
+      this.m33 = 1.0;
+    }
     return this;
   }
   fromScalling(v: Vec3): Mat4 {
     this.m00 = v.x;
     this.m01 = 0.0;
     this.m02 = 0.0;
+    this.m03 = 0.0;
     this.m10 = 0.0;
     this.m11 = v.y;
     this.m12 = 0.0;
+    this.m13 = 0.0;
     this.m20 = 0.0;
     this.m21 = 0.0;
-    this.m22 = 1.0;
+    this.m22 = v.z;
+    this.m23 = 0.0;
+    this.m30 = 0.0;
+    this.m31 = 0.0;
+    this.m32 = 0.0;
+    this.m33 = 1.0;
     return this;
   }
 
@@ -340,12 +447,19 @@ export class Mat4 {
       this.m00,
       this.m01,
       this.m02,
+      this.m03,
       this.m10,
       this.m11,
       this.m12,
+      this.m13,
       this.m20,
       this.m21,
       this.m22,
+      this.m23,
+      this.m30,
+      this.m31,
+      this.m32,
+      this.m33,
     );
   }
   multiplyClone(v: Mat4): Mat4 {
@@ -354,8 +468,8 @@ export class Mat4 {
   translateClone(v: Vec3): Mat4 {
     return this.clone().translate(v);
   }
-  rotateClone(radian: number): Mat4 {
-    return this.clone().rotate(radian);
+  rotateClone(radian: number, axis: Vec3): Mat4 {
+    return this.clone().rotate(radian, axis);
   }
   scaleClone(v: Vec3): Mat4 {
     return this.clone().scale(v);
@@ -364,23 +478,54 @@ export class Mat4 {
     return this.clone().invert();
   }
   determinant(): number {
-    return (
-      this.m00 * ( this.m22 * this.m11 - this.m12 * this.m21) +
-      this.m01 * (-this.m22 * this.m10 + this.m12 * this.m20) +
-      this.m02 * ( this.m21 * this.m10 - this.m11 * this.m20)
-    );
+    const m00 = this.m00;
+    const m01 = this.m01;
+    const m02 = this.m02;
+    const m03 = this.m03;
+    const m10 = this.m10;
+    const m11 = this.m11;
+    const m12 = this.m12;
+    const m13 = this.m13;
+    const m20 = this.m20;
+    const m21 = this.m21;
+    const m22 = this.m22;
+    const m23 = this.m23;
+    const m30 = this.m30;
+    const m31 = this.m31;
+    const m32 = this.m32;
+    const m33 = this.m33;
+    const a = m00 * m11 - m01 * m10;
+    const b = m00 * m12 - m02 * m10;
+    const c = m00 * m13 - m03 * m10;
+    const d = m01 * m12 - m02 * m11;
+    const e = m01 * m13 - m03 * m11;
+    const f = m02 * m13 - m03 * m12;
+    const g = m20 * m31 - m21 * m30;
+    const h = m20 * m32 - m22 * m30;
+    const i = m20 * m33 - m23 * m30;
+    const j = m21 * m32 - m22 * m31;
+    const k = m21 * m33 - m23 * m31;
+    const l = m22 * m33 - m23 * m32;
+    return a * l - b * k + c * j + d * i - e * h + f * g;
   }
   equals(v: Mat4): boolean {
     return (
       this.m00 === v.m00 &&
       this.m01 === v.m01 &&
       this.m02 === v.m02 &&
+      this.m03 === v.m03 &&
       this.m10 === v.m10 &&
       this.m11 === v.m11 &&
       this.m12 === v.m12 &&
+      this.m13 === v.m13 &&
       this.m20 === v.m20 &&
       this.m21 === v.m21 &&
-      this.m22 === v.m22
+      this.m22 === v.m22 &&
+      this.m23 === v.m23 &&
+      this.m30 === v.m30 &&
+      this.m31 === v.m31 &&
+      this.m32 === v.m32 &&
+      this.m33 === v.m33
     );
   }
   toArray(): number[] {
@@ -388,12 +533,19 @@ export class Mat4 {
       this.m00,
       this.m01,
       this.m02,
+      this.m03,
       this.m10,
       this.m11,
       this.m12,
+      this.m13,
       this.m20,
       this.m21,
       this.m22,
+      this.m23,
+      this.m30,
+      this.m31,
+      this.m32,
+      this.m33,
     ];
   }
   toString(separator?: string): string {
