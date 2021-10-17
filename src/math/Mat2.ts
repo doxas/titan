@@ -1,6 +1,5 @@
 
 import { ForEach } from "../Common/Signature";
-import { Mat4 } from "./Mat4";
 import { Vec2 } from "./Vec2";
 
 export class Mat2 {
