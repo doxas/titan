@@ -175,9 +175,6 @@ export class Mat3 {
     const m10 = this.m10;
     const m11 = this.m11;
     const m12 = this.m12;
-    const m20 = this.m20;
-    const m21 = this.m21;
-    const m22 = this.m22;
     const sin = Math.sin(radian);
     const cos = Math.cos(radian);
     this.m00 = cos * m00 + sin * m10;
