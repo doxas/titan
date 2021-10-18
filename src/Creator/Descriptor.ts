@@ -10,4 +10,11 @@ export class Descriptor {
   ): GPUTextureDescriptor {
     return {size, format, usage, mipLevelCount, sampleCount, dimension};
   }
+  static bufferDescriptor(
+    size: GPUSize64,
+    usage: GPUBufferUsageFlags,
+    mappedAtCreation: boolean = false,
+  ): GPUBufferDescriptor {
+    return {size, usage, mappedAtCreation};
+  }
 }
