@@ -17,4 +17,10 @@ export class Descriptor {
   ): GPUBufferDescriptor {
     return {size, usage, mappedAtCreation};
   }
+  static shaderModuleDescriptor(
+    code: string,
+    sourceMap?: object,
+  ): GPUShaderModuleDescriptor {
+    return {code, sourceMap};
+  }
 }
