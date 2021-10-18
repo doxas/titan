@@ -3,7 +3,7 @@ import { Logger } from '../Common/logger';
 import { Configrator } from '../Creator/Configurator';
 import { Descriptor } from '../Creator/Descriptor';
 
-export class TitanContext {
+export class Core {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -30,7 +30,7 @@ export class TitanContext {
   }
 
   /** chain method ========================================================== */
-  async initialize(canvas?: HTMLCanvasElement): Promise<TitanContext> {
+  async initialize(canvas?: HTMLCanvasElement): Promise<Core> {
     this.gpu = navigator.gpu;
     if(this.gpu == null) {
       Logger.log('webgpu not support');
