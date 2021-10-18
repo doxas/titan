@@ -1,12 +1,17 @@
 
-import { Logger } from "../Common/logger";
+import { Logger } from '../Common/logger';
+import { Configrator } from '../Creator/Configurator';
+import { Descriptor } from '../Creator/Descriptor';
 
-export class Context {
+export class TitanContext {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
 
   /** getter ================================================================ */
+  get ready(): boolean {
+    return this.gpu != null;
+  }
 
   /** setter ================================================================ */
 
@@ -16,17 +21,51 @@ export class Context {
   adapter: GPUAdapter;
   device: GPUDevice;
   queue: GPUQueue;
+  context: GPUCanvasContext;
+  depthTexture: GPUTexture;
+  depthTextureView: GPUTextureView;
 
   /** constructor =========================================================== */
-  constructor(canvas?: HTMLCanvasElement) {
+  constructor() {
+  }
+
+  /** chain method ========================================================== */
+  async initialize(canvas?: HTMLCanvasElement): Promise<TitanContext> {
     this.gpu = navigator.gpu;
     if(this.gpu == null) {
       Logger.log('webgpu not support');
     }
+    if(this.ready) {
+      return null;
+    }
+    this.adapter = await this.gpu.requestAdapter();
+    this.device = await this.adapter.requestDevice();
+    this.queue = this.device.queue;
+
     this.canvas = canvas != null ? canvas : document.createElement('canvas');
+    this.initializeContext();
+    this.initializeDepthTexture();
+
+    return this;
   }
 
-  /** chain method ========================================================== */
-
   /** method ================================================================ */
+
+  /** private method ======================================================== */
+  private initializeContext(): void {
+    // TODO: implement arguments
+    this.context = this.canvas.getContext('webgpu');
+    const config = Configrator.canvasConfiguration(this.device, 'bgra8unorm', GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC);
+    this.context.configure(config);
+  }
+  private initializeDepthTexture(): void {
+    // TODO: implement arguments
+    const size3D = [this.canvas.width, this.canvas.height, 1];
+    const descriptor = Descriptor.textureDescriptor(size3D, 'depth24plus-stencil8', GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC);
+    if(this.depthTexture != null) {
+      this.depthTexture.destroy();
+    }
+    this.depthTexture = this.device.createTexture(descriptor);
+    this.depthTextureView = this.depthTexture.createView();
+  }
 }
