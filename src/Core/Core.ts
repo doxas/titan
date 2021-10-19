@@ -1,7 +1,7 @@
 
 import { Logger } from '../Common/logger';
-import { Configrator } from '../Creator/Configurator';
-import { Descriptor } from '../Creator/Descriptor';
+import { Configration } from '../Interface/Configuration';
+import { Descriptor } from '../Interface/Descriptor';
 
 export class Core {
   /** static getter ========================================================= */
@@ -55,7 +55,7 @@ export class Core {
   private initializeContext(): void {
     // TODO: implement arguments
     this.context = this.canvas.getContext('webgpu');
-    const config = Configrator.canvasConfiguration(this.device, 'bgra8unorm', GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC);
+    const config = Configration.canvasConfiguration(this.device, 'bgra8unorm', GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC);
     this.context.configure(config);
   }
   private initializeDepthTexture(): void {
