@@ -1,5 +1,5 @@
 
-import { Descriptor } from '../Creator/Descriptor';
+import { Descriptor } from '../Interface/Descriptor';
 
 export class ShaderModule {
   /** static getter ========================================================= */
