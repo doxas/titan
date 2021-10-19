@@ -1,5 +1,5 @@
 
-export class Configrator {
+export class Configration {
   static canvasConfiguration(
     device: GPUDevice,
     format: GPUTextureFormat,

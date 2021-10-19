@@ -23,4 +23,18 @@ export class Descriptor {
   ): GPUShaderModuleDescriptor {
     return {code, sourceMap};
   }
+  static pipelineLayoutDescriptor(
+    bindGroupLayouts: GPUBindGroupLayout[],
+  ): GPUPipelineLayoutDescriptor {
+    return {bindGroupLayouts};
+  }
+  static renderPipelineDescriptor(
+    vertex: GPUVertexState,
+    fragment: GPUFragmentState,
+    depthStencil: GPUDepthStencilState,
+    primitive: GPUPrimitiveState = {},
+    multisample: GPUMultisampleState = {},
+  ): GPURenderPipelineDescriptor {
+    return {vertex, fragment, depthStencil, primitive, multisample};
+  }
 }
