@@ -1,5 +1,5 @@
 
-export class Layoutor {
+export class Layout {
   static vertexAttribute(
     format: GPUVertexFormat,
     offset: GPUSize64,
