@@ -37,4 +37,11 @@ export class Descriptor {
   ): GPURenderPipelineDescriptor {
     return {vertex, fragment, depthStencil, primitive, multisample};
   }
+  static renderPassDescriptor(
+    colorAttachments: GPURenderPassColorAttachment[],
+    depthStencilAttachment: GPURenderPassDepthStencilAttachment,
+    occlusionQuerySet: GPUQuerySet,
+  ): GPURenderPassDescriptor {
+    return {colorAttachments, depthStencilAttachment, occlusionQuerySet};
+  }
 }
