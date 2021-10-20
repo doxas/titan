@@ -28,7 +28,9 @@ export class Buffer {
     const buffer = this.device.createBuffer(descriptor);
 
     // TODO: why do this?
-    const writeArray = arrayBuffer instanceof Uint16Array ? new Uint16Array(buffer.getMappedRange()) : new Float32Array(buffer.getMappedRange());
+    const writeArray = arrayBuffer instanceof Uint16Array
+      ? new Uint16Array(buffer.getMappedRange())
+      : new Float32Array(buffer.getMappedRange());
     writeArray.set(arrayBuffer);
 
     buffer.unmap();
