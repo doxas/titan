@@ -2,10 +2,10 @@
 export class Layout {
   static vertexAttribute(
     format: GPUVertexFormat,
-    offset: GPUSize64,
     shaderLocation: GPUIndex32,
+    offset: GPUSize64 = 0,
   ): GPUVertexAttribute {
-    return {format, offset, shaderLocation};
+    return {format, shaderLocation, offset};
   }
   static vertexBufferLayout(
     arrayStride: GPUSize64,

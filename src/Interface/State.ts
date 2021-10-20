@@ -32,7 +32,7 @@ export class State {
   ): GPUVertexState {
     return {module, entryPoint, buffers};
   }
-  static fragmentStatel(
+  static fragmentState(
     module: GPUShaderModule,
     entryPoint: string,
     targets: GPUColorTargetState[] = [],
@@ -41,18 +41,31 @@ export class State {
   }
   static colorTargetState(
     format: GPUTextureFormat,
-    blend: GPUBlendState,
+    blend?: GPUBlendState,
     writeMask: GPUColorWriteFlags = GPUColorWrite.ALL,
   ): GPUColorTargetState {
     return {format, blend, writeMask};
   }
+  static blendState(
+    color: GPUBlendComponent,
+    alpha: GPUBlendComponent,
+  ): GPUBlendState {
+    return {color, alpha};
+  }
   static primitiveState(
     topology: GPUPrimitiveTopology = 'triangle-list',
-    stripIndexFormat: GPUIndexFormat = 'uint16',
     frontFace: GPUFrontFace = 'ccw',
     cullMode: GPUCullMode = 'none',
+    stripIndexFormat: GPUIndexFormat = 'uint16',
     clampDepth: boolean = false,
   ): GPUPrimitiveState {
-    return {stripIndexFormat, topology, frontFace, cullMode, clampDepth};
+    return {topology, frontFace, cullMode, stripIndexFormat, clampDepth};
+  }
+  static multisampleState(
+    count: GPUSize32 = 1,
+    mask: GPUSampleMask = 0xffffffff,
+    alphaToCoverageEnabled: boolean = false,
+  ): GPUMultisampleState {
+    return {count, mask, alphaToCoverageEnabled};
   }
 }
