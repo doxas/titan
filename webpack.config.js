@@ -1,11 +1,20 @@
 const path = require('path');
+const glob = require('glob');
+
+const entryArray = glob.sync('example/**/*.ts', {
+  cwd: path.resolve(__dirname, 'src'),
+});
+const entries = {};
+entryArray.forEach((filePath) => {
+  const noext = filePath.replace(/\.ts$/i, '');
+  entries[noext] = `./${filePath}`;
+});
+entries.titan = './titan.ts';
 
 module.exports = {
   mode: 'development',
   context: path.resolve(__dirname, 'src'),
-  entry: {
-    titan: './titan.ts',
-  },
+  entry: entries,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
