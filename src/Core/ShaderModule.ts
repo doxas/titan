@@ -21,7 +21,7 @@ export class ShaderModule {
   /** chain method ========================================================== */
 
   /** method ================================================================ */
-  create(code: string, sourceMap: object): GPUShaderModule {
+  create(code: string, sourceMap?: object): GPUShaderModule {
     const descriptor = Descriptor.shaderModuleDescriptor(code, sourceMap);
     const shader = this.device.createShaderModule(descriptor);
     return shader;

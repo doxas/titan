@@ -2,8 +2,6 @@
 import { CONSTANT } from './Common/Constant';
 import { Logger } from './Common/logger';
 import { Core } from './Core/Core';
-import { Buffer } from './Core/Buffer';
-import { ShaderModule } from './Core/ShaderModule';
 import { Configration } from './Interface/Configuration';
 import { Descriptor } from './Interface/Descriptor';
 import { Layout } from './Interface/Layout';
@@ -17,21 +15,24 @@ import { Mat4 } from './Math/Mat4';
 import { Loader } from './Loader/Loader';
 
 export class TITAN {
+  // common
   static get CONSTANT() {return CONSTANT;}
   static get Logger() {return Logger;}
+  // core
   static get Core() {return Core;}
-  static get Buffer() {return Buffer;}
-  static get ShaderModule() {return ShaderModule;}
+  // interface
   static get Configration() {return Configration;}
   static get Descriptor() {return Descriptor;}
   static get Layout() {return Layout;}
   static get State() {return State;}
+  // math
   static get Vec2() {return Vec2;}
   static get Vec3() {return Vec3;}
   static get Vec4() {return Vec4;}
   static get Mat2() {return Mat2;}
   static get Mat3() {return Mat3;}
   static get Mat4() {return Mat4;}
+  // loader
   static get Loader() {return Loader;}
 }
 

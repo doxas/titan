@@ -3,6 +3,9 @@ import { Logger } from '../Common/logger';
 import { Configration } from '../Interface/Configuration';
 import { Descriptor } from '../Interface/Descriptor';
 
+import { Buffer } from './Buffer';
+import { ShaderModule } from './ShaderModule';
+
 export class Core {
   /** static getter ========================================================= */
 
@@ -24,32 +27,46 @@ export class Core {
   context: GPUCanvasContext;
   depthTexture: GPUTexture;
   depthTextureView: GPUTextureView;
+  // instance
+  buffer: Buffer;
+  shaderModule: ShaderModule;
 
   /** constructor =========================================================== */
   constructor() {
   }
 
   /** chain method ========================================================== */
-  async initialize(canvas?: HTMLCanvasElement): Promise<Core> {
+
+  /** method ================================================================ */
+  async initialize(canvas?: HTMLCanvasElement): Promise<boolean> {
     this.gpu = navigator.gpu;
     if(this.gpu == null) {
       Logger.log('webgpu not support');
     }
     if(this.ready) {
-      return null;
+      return false;
     }
     this.adapter = await this.gpu.requestAdapter();
     this.device = await this.adapter.requestDevice();
     this.queue = this.device.queue;
 
+    // canvas
     this.canvas = canvas != null ? canvas : document.createElement('canvas');
     this.initializeContext();
     this.initializeDepthTexture();
 
-    return this;
-  }
+    // initialze instance (with device)
+    this.buffer = new Buffer(this.device);
+    this.shaderModule = new ShaderModule(this.device);
 
-  /** method ================================================================ */
+    return true;
+  }
+  createPipelineLayout(desc: GPUPipelineLayoutDescriptor): GPUPipelineLayout {
+    return this.device.createPipelineLayout(desc);
+  }
+  createRenderPipeline(desc: GPURenderPipelineDescriptor): GPURenderPipeline {
+    return this.device.createRenderPipeline(desc);
+  }
 
   /** private method ======================================================== */
   private initializeContext(): void {
