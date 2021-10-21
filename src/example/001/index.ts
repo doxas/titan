@@ -61,4 +61,34 @@ window.addEventListener('DOMContentLoaded', async () => {
     multisampleState,
   );
   const renderPipeline = titan.createRenderPipeline(renderPipelineDescriptor);
+
+  const render = () => {
+    requestAnimationFrame(render);
+
+    const colorTexture = titan.context.getCurrentTexture();
+    const colorTextureView = colorTexture.createView();
+
+    const loadValue = {r: 0.0, g: 0.0, b: 0.0, a: 1.0};
+    const colorAttachment = TITAN.Layout.renderPassColorAttachment(colorTextureView, loadValue, 'store');
+    const depthStencilAttachment = TITAN.Layout.renderPassDepthStencilAttachment(
+      titan.depthTextureView, 1, 'store', false, 'load', 'store', false,
+    );
+    const renderPassDescripter = TITAN.Descriptor.renderPassDescriptor([colorAttachment], depthStencilAttachment);
+
+    const commandEncoder = titan.device.createCommandEncoder();
+    const passEncoder = commandEncoder.beginRenderPass(renderPassDescripter);
+    passEncoder.setPipeline(renderPipeline);
+    passEncoder.setViewport(0, 0, titan.canvas.width, titan.canvas.height, 0, 1);
+    passEncoder.setScissorRect(0, 0, titan.canvas.width, titan.canvas.height);
+
+    passEncoder.setVertexBuffer(0, positionBuffer);
+    passEncoder.setVertexBuffer(1, colorBuffer);
+    passEncoder.setIndexBuffer(indexBuffer, 'uint16');
+    passEncoder.drawIndexed(3, 1);
+    passEncoder.endPass();
+
+    titan.queue.submit([commandEncoder.finish()]);
+  };
+
+  render();
 }, false);
