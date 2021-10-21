@@ -17,6 +17,8 @@ const indices = [0, 1, 2];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const canvas = document.querySelector<HTMLCanvasElement>('#webgpu');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
   const titan = new TITAN.Core();
   const ready = await titan.initialize(canvas);
 
