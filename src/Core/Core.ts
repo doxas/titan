@@ -42,8 +42,6 @@ export class Core {
     this.gpu = navigator.gpu;
     if(this.gpu == null) {
       Logger.log('webgpu not support');
-    }
-    if(this.ready) {
       return false;
     }
     this.adapter = await this.gpu.requestAdapter();
@@ -78,7 +76,7 @@ export class Core {
   private initializeDepthTexture(): void {
     // TODO: implement arguments
     const size3D = [this.canvas.width, this.canvas.height, 1];
-    const descriptor = Descriptor.textureDescriptor(size3D, 'depth24plus-stencil8', GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC);
+    const descriptor = Descriptor.textureDescriptor(size3D, 'depth24plus-stencil8', GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC, '2d');
     if(this.depthTexture != null) {
       this.depthTexture.destroy();
     }
