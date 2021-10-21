@@ -40,7 +40,7 @@ export class Descriptor {
   static renderPassDescriptor(
     colorAttachments: GPURenderPassColorAttachment[],
     depthStencilAttachment: GPURenderPassDepthStencilAttachment,
-    occlusionQuerySet: GPUQuerySet,
+    occlusionQuerySet?: GPUQuerySet,
   ): GPURenderPassDescriptor {
     return {colorAttachments, depthStencilAttachment, occlusionQuerySet};
   }

@@ -16,11 +16,11 @@ export class Layout {
   }
   static renderPassColorAttachment(
     view: GPUTextureView,
-    resolveTarget: GPUTextureView,
     loadValue: GPULoadOp | GPUColor,
     storeOp: GPUStoreOp,
+    resolveTarget?: GPUTextureView,
   ): GPURenderPassColorAttachment {
-    return {view, resolveTarget, loadValue, storeOp};
+    return {view, loadValue, storeOp, resolveTarget};
   }
   static renderPassDepthStencilAttachment(
     view: GPUTextureView,
