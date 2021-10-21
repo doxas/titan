@@ -4,11 +4,11 @@ export class Descriptor {
     size: GPUExtent3D,
     format: GPUTextureFormat,
     usage: GPUTextureUsageFlags,
+    dimension: GPUTextureDimension = '2d',
     mipLevelCount: GPUIntegerCoordinate = 1,
     sampleCount: GPUSize32 = 1,
-    dimension: GPUTextureDimension = '2d',
   ): GPUTextureDescriptor {
-    return {size, format, usage, mipLevelCount, sampleCount, dimension};
+    return {size, format, usage, dimension, mipLevelCount, sampleCount};
   }
   static bufferDescriptor(
     size: GPUSize64,
