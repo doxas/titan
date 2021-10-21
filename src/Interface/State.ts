@@ -59,7 +59,9 @@ export class State {
     stripIndexFormat: GPUIndexFormat = 'uint16',
     clampDepth: boolean = false,
   ): GPUPrimitiveState {
-    return {topology, frontFace, cullMode, stripIndexFormat, clampDepth};
+    return {topology, frontFace, cullMode}; //, stripIndexFormat, clampDepth};
+    // return {topology, frontFace, cullMode, stripIndexFormat}; // , clampDepth}; // only using strip-primitive-type
+    // return {topology, frontFace, cullMode, stripIndexFormat, clampDepth}; // clampdepth feature not support at 2021.10 on chrome94
   }
   static multisampleState(
     count: GPUSize32 = 1,
