@@ -1,6 +1,5 @@
 
 import { Logger } from '../Common/logger';
-
 import { Buffer } from './Buffer';
 import { ShaderModule } from './ShaderModule';
 
@@ -45,8 +44,8 @@ export class Core {
   private _deviceWidth: number;
   private _deviceHeight: number;
   // instance
-  private buffer: Buffer;
-  private shaderModule: ShaderModule;
+  private _buffer: Buffer;
+  private _shaderModule: ShaderModule;
 
   /** constructor =========================================================== */
   constructor() {
@@ -76,8 +75,8 @@ export class Core {
     this.resize(width, height);
 
     // initialze instance (with device)
-    this.buffer = new Buffer(this.device);
-    this.shaderModule = new ShaderModule(this.device);
+    this._buffer = new Buffer(this.device);
+    this._shaderModule = new ShaderModule(this.device);
 
     return true;
   }
@@ -109,14 +108,14 @@ export class Core {
   }
   createVertexBuffer(attribute: number[] | Float32Array): GPUBuffer {
     const typedArray = new Float32Array(attribute);
-    return this.buffer.create(typedArray, GPUBufferUsage.VERTEX);
+    return this._buffer.create(typedArray, GPUBufferUsage.VERTEX);
   }
   createIndexBuffer(indices: number[] | Uint16Array): GPUBuffer {
     const typedArray = new Uint16Array(indices);
-    return this.buffer.create(typedArray, GPUBufferUsage.INDEX);
+    return this._buffer.create(typedArray, GPUBufferUsage.INDEX);
   }
   createShaderModule(source: string): GPUShaderModule {
-    return this.shaderModule.create(source);
+    return this._shaderModule.create(source);
   }
 
   /** private method ======================================================== */
