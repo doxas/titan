@@ -27,6 +27,7 @@ export class Core {
   /** setter ================================================================ */
   set devicePixelRatio(v: number) {
     this._devicePixelRatio = v;
+    this.resize(this.canvas.width, this.canvas.height);
   }
 
   /** property ============================================================== */
@@ -38,9 +39,11 @@ export class Core {
   context: GPUCanvasContext;
   depthTexture: GPUTexture;
   depthTextureView: GPUTextureView;
+  width: number;
+  height: number;
   private _devicePixelRatio: number;
-  private _width: number;
-  private _height: number;
+  private _deviceWidth: number;
+  private _deviceHeight: number;
   // instance
   private buffer: Buffer;
   private shaderModule: ShaderModule;
@@ -66,10 +69,10 @@ export class Core {
 
     // canvas
     this.canvas = option?.canvas != null ? option.canvas : document.createElement('canvas');
-    const width = option?.width != null ? option.width : this.canvas.width;
-    const height = option?.height != null ? option.height : this.canvas.height;
     const isContext = this.initializeContext();
     if (!isContext) {return false;}
+    const width = option?.width != null ? option.width : this.canvas.width;
+    const height = option?.height != null ? option.height : this.canvas.height;
     this.resize(width, height);
 
     // initialze instance (with device)
@@ -78,17 +81,23 @@ export class Core {
 
     return true;
   }
-  resize(width: number, height: number): void {
+  resize(width?: number, height?: number): void {
     if (this.canvas == null) {
       Logger.log('not initialization');
       return;
     }
-    this._width = Math.floor(width * this._devicePixelRatio);
-    this._height = Math.floor(height * this._devicePixelRatio);
-    this.canvas.width = this._width;
-    this.canvas.height = this._height;
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
+    if (width != null) {
+      this.width = width;
+    }
+    if (height != null) {
+      this.height = height;
+    }
+    this._deviceWidth = Math.floor(this.width * this._devicePixelRatio);
+    this._deviceHeight = Math.floor(this.height * this._devicePixelRatio);
+    this.canvas.width = this._deviceWidth;
+    this.canvas.height = this._deviceHeight;
+    this.canvas.style.width = `${this.width}px`;
+    this.canvas.style.height = `${this.height}px`;
     this.resetContext();
     this.resetDepthTexture();
   }
@@ -128,7 +137,7 @@ export class Core {
     return true;
   }
   private resetContext(): void {
-    const size: GPUExtent3D = [this._width, this._height, 1];
+    const size: GPUExtent3D = [this._deviceWidth, this._deviceHeight, 1];
     const config: GPUCanvasConfiguration = {
       device: this.device,
       format: 'bgra8unorm',
@@ -138,7 +147,7 @@ export class Core {
     this.context.configure(config);
   }
   private resetDepthTexture(): void {
-    const size: GPUExtent3D = [this._width, this._height, 1];
+    const size: GPUExtent3D = [this._deviceWidth, this._deviceHeight, 1];
     const descriptor: GPUTextureDescriptor = {
       size: size,
       format: 'depth24plus-stencil8',
