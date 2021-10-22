@@ -17,22 +17,28 @@ const indices = [0, 1, 2];
 
 window.addEventListener('DOMContentLoaded', async () => {
   const canvas = document.querySelector<HTMLCanvasElement>('#webgpu');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const devicePixelRatio = window.devicePixelRatio;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
   const titan = new TITAN.Core();
-  const ready = await titan.initialize(canvas);
+  const ready = await titan.initialize({
+    canvas,
+    devicePixelRatio,
+    width,
+    height,
+  });
 
-  if(!ready) {
+  if (!ready) {
     console.log('oops!');
     return;
   }
 
-  const positionBuffer = titan.buffer.create(new Float32Array(position), GPUBufferUsage.VERTEX);
-  const colorBuffer = titan.buffer.create(new Float32Array(color), GPUBufferUsage.VERTEX);
-  const indexBuffer = titan.buffer.create(new Uint16Array(indices), GPUBufferUsage.INDEX);
+  const positionBuffer = titan.createVertexBuffer(position);
+  const colorBuffer = titan.createVertexBuffer(color);
+  const indexBuffer = titan.createIndexBuffer(indices);
 
-  const vsModule = titan.shaderModule.create(vsSource);
-  const fsModule = titan.shaderModule.create(fsSource);
+  const vsModule = titan.createShaderModule(vsSource);
+  const fsModule = titan.createShaderModule(fsSource);
 
   const positionAttribute = TITAN.Layout.vertexAttribute('float32x3', 0);
   const colorAttribute = TITAN.Layout.vertexAttribute('float32x3', 1);
