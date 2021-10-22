@@ -117,6 +117,9 @@ export class Core {
   createShaderModule(source: string): GPUShaderModule {
     return this._shaderModule.create(source);
   }
+  getShaderInfo(module: GPUShaderModule): Promise<GPUCompilationInfo> {
+    return module.compilationInfo();
+  }
 
   /** private method ======================================================== */
   private initializeGpu(): boolean {
