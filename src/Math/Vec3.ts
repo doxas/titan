@@ -1,5 +1,5 @@
 
-import { ForEach } from "../Common/Signature";
+import { ForEach } from '../Utility/Signature';
 
 export class Vec3 {
   /** static getter ========================================================= */

@@ -1,6 +1,6 @@
 
-import { ForEach } from "../Common/Signature";
-import { Vec3 } from "./Vec3";
+import { ForEach } from '../Utility/Signature';
+import { Vec3 } from './Vec3';
 
 export class Mat4 {
   /** static getter ========================================================= */

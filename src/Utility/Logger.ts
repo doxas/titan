@@ -1,5 +1,5 @@
 
-import { CONSTANT } from './Constant';
+import { CONSTANT } from '../Core/Constant';
 
 export class Logger {
   static log(...out: any) {

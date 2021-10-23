@@ -1,7 +1,7 @@
 
-import { Logger } from '../Common/logger';
-import { Buffer } from './Buffer';
-import { ShaderModule } from './ShaderModule';
+import { Logger } from '../Utility/Logger';
+import { Buffer } from '../Common/Buffer';
+import { ShaderModule } from '../Common/ShaderModule';
 
 export interface ICoreInitialize {
   canvas?: HTMLCanvasElement;

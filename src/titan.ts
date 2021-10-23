@@ -1,30 +1,20 @@
 
-import { CONSTANT } from './Common/Constant';
-import { Logger } from './Common/logger';
 import { Core } from './Core/Core';
-import { Configration } from './Interface/Configuration';
-import { Descriptor } from './Interface/Descriptor';
-import { Layout } from './Interface/Layout';
-import { State } from './Interface/State';
+import { CONSTANT } from './Core/Constant';
 import { Vec2 } from './Math/Vec2';
 import { Vec3 } from './Math/Vec3';
 import { Vec4 } from './Math/Vec4';
 import { Mat2 } from './Math/Mat2';
 import { Mat3 } from './Math/Mat3';
 import { Mat4 } from './Math/Mat4';
-import { Loader } from './Loader/Loader';
+import { Loader } from './Utility/Loader';
+import { Logger } from './Utility/Logger';
 
 export class TITAN {
-  // common
-  static get CONSTANT() {return CONSTANT;}
-  static get Logger() {return Logger;}
   // core
+  static get CONSTANT() {return CONSTANT;}
   static get Core() {return Core;}
-  // interface
-  static get Configration() {return Configration;}
-  static get Descriptor() {return Descriptor;}
-  static get Layout() {return Layout;}
-  static get State() {return State;}
+  // common
   // math
   static get Vec2() {return Vec2;}
   static get Vec3() {return Vec3;}
@@ -32,11 +22,12 @@ export class TITAN {
   static get Mat2() {return Mat2;}
   static get Mat3() {return Mat3;}
   static get Mat4() {return Mat4;}
-  // loader
+  // utility
   static get Loader() {return Loader;}
+  static get Logger() {return Logger;}
 }
 
-if(window != null) {
+if (window != null) {
   // @ts-ignore
   window.TITAN = TITAN;
 }
