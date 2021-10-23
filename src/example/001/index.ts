@@ -38,7 +38,21 @@ window.addEventListener('DOMContentLoaded', async () => {
   const indexBuffer = titan.createIndexBuffer(indices);
 
   const vsModule = titan.createShaderModule(vsSource);
+  const vsModuleLog = await titan.getShaderInfo(vsModule);
+  if (vsModuleLog.messages.length > 0) {
+    vsModuleLog.messages.forEach((v) => {
+      console.log(v.message);
+    });
+    return;
+  }
   const fsModule = titan.createShaderModule(fsSource);
+  const fsModuleLog = await titan.getShaderInfo(fsModule);
+  if (fsModuleLog.messages.length > 0) {
+    fsModuleLog.messages.forEach((v) => {
+      console.log(v.message);
+    });
+    return;
+  }
 
   const positionAttribute = TITAN.Layout.vertexAttribute('float32x3', 0);
   const colorAttribute = TITAN.Layout.vertexAttribute('float32x3', 1);
