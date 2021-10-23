@@ -33,10 +33,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  const positionBuffer = titan.createVertexBuffer(position);
-  const colorBuffer = titan.createVertexBuffer(color);
-  const indexBuffer = titan.createIndexBuffer(indices);
-
+  // shader
   const vsModule = titan.createShaderModule(vsSource);
   const vsModuleLog = await titan.getShaderInfo(vsModule);
   if (vsModuleLog.messages.length > 0) {
@@ -54,6 +51,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
+  // pipeline
   const positionAttribute = TITAN.Layout.vertexAttribute('float32x3', 0);
   const colorAttribute = TITAN.Layout.vertexAttribute('float32x3', 1);
   const positionBufferLayout = TITAN.Layout.vertexBufferLayout(
@@ -69,6 +67,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   const vertexShader = TITAN.State.vertexState(vsModule, 'main', [positionBufferLayout, colorBufferLayout]);
   const colorState = TITAN.State.colorTargetState('bgra8unorm');
   const fragmentShader = TITAN.State.fragmentState(fsModule, 'main', [colorState]);
+
+  const positionBuffer = titan.createVertexBuffer(position);
+  const colorBuffer = titan.createVertexBuffer(color);
+  const indexBuffer = titan.createIndexBuffer(indices);
 
   const depthStencilState = TITAN.State.depthStencilState('depth24plus-stencil8', true, 'less');
   const pipelineLayout = titan.createPipelineLayout(TITAN.Descriptor.pipelineLayoutDescriptor([]));
@@ -95,10 +97,10 @@ window.addEventListener('DOMContentLoaded', async () => {
     const depthStencilAttachment = TITAN.Layout.renderPassDepthStencilAttachment(
       titan.depthTextureView, 1, 'store', false, 'load', 'store', false,
     );
-    const renderPassDescripter = TITAN.Descriptor.renderPassDescriptor([colorAttachment], depthStencilAttachment);
+    const renderPassDescriptor = TITAN.Descriptor.renderPassDescriptor([colorAttachment], depthStencilAttachment);
 
     const commandEncoder = titan.device.createCommandEncoder();
-    const passEncoder = commandEncoder.beginRenderPass(renderPassDescripter);
+    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
     passEncoder.setPipeline(renderPipeline);
     passEncoder.setViewport(0, 0, titan.canvas.width, titan.canvas.height, 0, 1);
     passEncoder.setScissorRect(0, 0, titan.canvas.width, titan.canvas.height);

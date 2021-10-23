@@ -100,6 +100,9 @@ export class Core {
     this.resetContext();
     this.resetDepthTexture();
   }
+  render() {
+    // render to framebuffer
+  }
   createPipelineLayout(desc: GPUPipelineLayoutDescriptor): GPUPipelineLayout {
     return this.device.createPipelineLayout(desc);
   }
