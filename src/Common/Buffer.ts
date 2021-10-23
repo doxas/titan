@@ -17,7 +17,7 @@ export class Buffer extends Base {
   /** property ============================================================== */
   private _buffer: GPUBuffer;
   private _array: Float32Array | Uint16Array;
-  private _flags: GPUBufferUsageFlags;
+  private _usage: GPUBufferUsageFlags;
 
   /** constructor =========================================================== */
   constructor() {
@@ -25,13 +25,13 @@ export class Buffer extends Base {
 
     this._buffer = null;
     this._array = null;
-    this._flags = GPUBufferUsage.VERTEX;
+    this._usage = GPUBufferUsage.VERTEX;
   }
 
   /** chain method ========================================================== */
   set(arrayBuffer: Float32Array | Uint16Array, usage: GPUBufferUsageFlags): this {
     this._array = arrayBuffer;
-    this._flags = usage;
+    this._usage = usage;
     this._changed = true;
 
     return this;
@@ -55,7 +55,7 @@ export class Buffer extends Base {
     const descriptor: GPUBufferDescriptor = {
       size: (this._array.byteLength + 3) & ~3,
       mappedAtCreation: true,
-      usage: this._flags,
+      usage: this._usage,
     };
     this._buffer = pipeline.device.createBuffer(descriptor);
 
