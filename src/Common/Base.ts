@@ -1,7 +1,7 @@
 
-import { Base } from './Base';
+import { v4 as uuidv4 } from 'uuid';
 
-export class ShaderModule extends Base {
+export class Base {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -11,22 +11,20 @@ export class ShaderModule extends Base {
   /** setter ================================================================ */
 
   /** property ============================================================== */
-  device: GPUDevice;
+  name: string;
+  uuid: string;
+  private _changed: boolean;
 
   /** constructor =========================================================== */
-  constructor(device: GPUDevice) {
-    super();
-    this.device = device;
+  constructor() {
+    this.name = 'common';
+    this.uuid = uuidv4();
+    this._changed = false;
   }
 
   /** chain method ========================================================== */
 
   /** method ================================================================ */
-  create(code: string, sourceMap?: object): GPUShaderModule {
-    const descriptor = Descriptor.shaderModuleDescriptor(code, sourceMap);
-    const shader = this.device.createShaderModule(descriptor);
-    return shader;
-  }
 }
 
 

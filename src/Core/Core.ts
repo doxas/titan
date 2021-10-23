@@ -1,13 +1,20 @@
 
+import { Pipeline } from './Pipeline';
+import { Framebuffer } from '../Common/Framebuffer';
+import { Scene } from '../Common/Scene';
+import { Camera } from '../Common/Camera';
 import { Logger } from '../Utility/Logger';
-import { Buffer } from '../Common/Buffer';
-import { ShaderModule } from '../Common/ShaderModule';
 
 export interface ICoreInitialize {
   canvas?: HTMLCanvasElement;
   devicePixelRatio?: number;
   width?: number;
   height?: number;
+}
+export interface IRender {
+  target?: Framebuffer;
+  scene: Scene;
+  camera: Camera;
 }
 
 export class Core {
@@ -44,8 +51,7 @@ export class Core {
   private _deviceWidth: number;
   private _deviceHeight: number;
   // instance
-  private _buffer: Buffer;
-  private _shaderModule: ShaderModule;
+  private _pipeline: Pipeline;
 
   /** constructor =========================================================== */
   constructor() {
@@ -75,8 +81,7 @@ export class Core {
     this.resize(width, height);
 
     // initialze instance (with device)
-    this._buffer = new Buffer(this.device);
-    this._shaderModule = new ShaderModule(this.device);
+    this._pipeline = new Pipeline(this.device, this.context, this.queue);
 
     return true;
   }
@@ -100,28 +105,8 @@ export class Core {
     this.resetContext();
     this.resetDepthTexture();
   }
-  render() {
+  render(option: IRender): void {
     // render to framebuffer
-  }
-  createPipelineLayout(desc: GPUPipelineLayoutDescriptor): GPUPipelineLayout {
-    return this.device.createPipelineLayout(desc);
-  }
-  createRenderPipeline(desc: GPURenderPipelineDescriptor): GPURenderPipeline {
-    return this.device.createRenderPipeline(desc);
-  }
-  createVertexBuffer(attribute: number[] | Float32Array): GPUBuffer {
-    const typedArray = new Float32Array(attribute);
-    return this._buffer.create(typedArray, GPUBufferUsage.VERTEX);
-  }
-  createIndexBuffer(indices: number[] | Uint16Array): GPUBuffer {
-    const typedArray = new Uint16Array(indices);
-    return this._buffer.create(typedArray, GPUBufferUsage.INDEX);
-  }
-  createShaderModule(source: string): GPUShaderModule {
-    return this._shaderModule.create(source);
-  }
-  getShaderInfo(module: GPUShaderModule): Promise<GPUCompilationInfo> {
-    return module.compilationInfo();
   }
 
   /** private method ======================================================== */

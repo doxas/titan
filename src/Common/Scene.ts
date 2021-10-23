@@ -1,7 +1,7 @@
 
-import { Base } from './Base';
+import { Base3D } from './Base3D';
 
-export class ShaderModule extends Base {
+export class Scene extends Base3D {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -11,21 +11,16 @@ export class ShaderModule extends Base {
   /** setter ================================================================ */
 
   /** property ============================================================== */
-  device: GPUDevice;
 
   /** constructor =========================================================== */
-  constructor(device: GPUDevice) {
+  constructor() {
     super();
-    this.device = device;
   }
 
   /** chain method ========================================================== */
 
   /** method ================================================================ */
-  create(code: string, sourceMap?: object): GPUShaderModule {
-    const descriptor = Descriptor.shaderModuleDescriptor(code, sourceMap);
-    const shader = this.device.createShaderModule(descriptor);
-    return shader;
+  create() {
   }
 }
 

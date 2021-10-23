@@ -1,7 +1,9 @@
 
+import { Base } from './Base';
+
 export interface ITexture {}
 
-export class Texture {
+export class Texture extends Base {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -16,6 +18,7 @@ export class Texture {
 
   /** constructor =========================================================== */
   constructor(width: number, height: number) {
+    super();
     this.width = width;
     this.height = height;
   }

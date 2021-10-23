@@ -1,44 +1,28 @@
 
-import { Framebuffer } from './Framebuffer';
+import { Base } from './Base';
 
-export class Pipeline {
+export class Base3D extends Base {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
 
   /** getter ================================================================ */
-  get framebuffer(): Framebuffer {
-    return this.currentFramebuffer;
-  }
 
   /** setter ================================================================ */
-  set framebuffer(v: Framebuffer) {
-    this.currentFramebuffer = v;
-  }
 
   /** property ============================================================== */
-  device: GPUDevice;
-  context: GPUCanvasContext;
-  queue: GPUQueue;
-  private currentFramebuffer: Framebuffer;
+  children: Base3D[];
 
   /** constructor =========================================================== */
-  constructor(device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
-    this.device = device;
-    this.context = context;
-    this.queue = queue;
+  constructor() {
+    super();
+
+    this.children = [];
   }
 
   /** chain method ========================================================== */
-  setup(): this {
-    // setup pipeline
-    return this;
-  }
 
   /** method ================================================================ */
-  setFramebuffer(v: Framebuffer): void {
-    this.framebuffer = v;
-  }
 }
 
 

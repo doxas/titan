@@ -1,5 +1,7 @@
 
-export class Framebuffer {
+import { Base } from './Base';
+
+export class Framebuffer extends Base {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -15,6 +17,7 @@ export class Framebuffer {
 
   /** constructor =========================================================== */
   constructor(device: GPUDevice, width: number, height: number) {
+    super();
     this.device = device;
     this.width = width;
     this.height = height;

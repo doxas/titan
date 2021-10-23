@@ -1,7 +1,7 @@
 
-import { Descriptor } from '../Interface/Descriptor';
+import { Base } from './Base';
 
-export class Buffer {
+export class Buffer extends Base {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -11,11 +11,10 @@ export class Buffer {
   /** setter ================================================================ */
 
   /** property ============================================================== */
-  device: GPUDevice;
 
   /** constructor =========================================================== */
-  constructor(device: GPUDevice) {
-    this.device = device;
+  constructor() {
+    super();
   }
 
   /** chain method ========================================================== */
