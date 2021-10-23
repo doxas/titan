@@ -44,6 +44,8 @@ export class Buffer extends Base {
     if (this._buffer != null) {
       this._buffer.destroy();
       this._buffer = null;
+      this._array = null;
+      this._usage = null;
     }
     this._changed = false;
     return this;
