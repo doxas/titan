@@ -13,7 +13,7 @@ export class Base {
   /** property ============================================================== */
   name: string;
   uuid: string;
-  private _changed: boolean;
+  protected _changed: boolean;
 
   /** constructor =========================================================== */
   constructor() {
