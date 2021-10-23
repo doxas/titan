@@ -28,68 +28,68 @@ export class Vec2 {
   }
 
   /** chain method ========================================================== */
-  set(x: number, y: number): Vec2 {
+  set(x: number, y: number): this {
     this.x = x;
     this.y = y;
     return this;
   }
-  setScalar(scalar: number): Vec2 {
+  setScalar(scalar: number): this {
     this.x = scalar;
     this.y = scalar;
     return this;
   }
-  copy(v: Vec2): Vec2 {
+  copy(v: Vec2): this {
     this.x = v.x;
     this.y = v.y;
     return this;
   }
-  add(v: Vec2): Vec2 {
+  add(v: Vec2): this {
     this.x += v.x;
     this.y += v.y;
     return this;
   }
-  sub(v: Vec2): Vec2 {
+  sub(v: Vec2): this {
     this.x -= v.x;
     this.y -= v.y;
     return this;
   }
-  mul(v: Vec2): Vec2 {
+  mul(v: Vec2): this {
     this.x *= v.x;
     this.y *= v.y;
     return this;
   }
-  div(v: Vec2): Vec2 {
+  div(v: Vec2): this {
     this.x /= v.x;
     this.y /= v.y;
     return this;
   }
-  addScalar(v: number): Vec2 {
+  addScalar(v: number): this {
     this.x += v;
     this.y += v;
     return this;
   }
-  subScalar(v: number): Vec2 {
+  subScalar(v: number): this {
     this.x -= v;
     this.y -= v;
     return this;
   }
-  mulScalar(v: number): Vec2 {
+  mulScalar(v: number): this {
     this.x *= v;
     this.y *= v;
     return this;
   }
-  divScalar(v: number): Vec2 {
+  divScalar(v: number): this {
     this.x /= v;
     this.y /= v;
     return this;
   }
-  lerp(t: number, v: Vec2): Vec2 {
+  lerp(t: number, v: Vec2): this {
     const diff = v.subClone(this);
     this.x = this.x + diff.x * t;
     this.y = this.y + diff.y * t;
     return this;
   }
-  normalize(): Vec2 {
+  normalize(): this {
     const length = this.length;
     if(length !== 0.0) {
       this.x /= length;
@@ -97,12 +97,12 @@ export class Vec2 {
     }
     return this;
   }
-  negate(): Vec2 {
+  negate(): this {
     this.x = -this.x;
     this.y = -this.y;
     return this;
   }
-  invert(): Vec2 {
+  invert(): this {
     this.x = 1.0 / this.x;
     this.y = 1.0 / this.y;
     return this;

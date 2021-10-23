@@ -340,7 +340,7 @@ export class Mat4 {
     m31: number,
     m32: number,
     m33: number,
-  ): Mat4 {
+  ): this {
     this.m00 = m00;
     this.m01 = m01;
     this.m02 = m02;
@@ -359,7 +359,7 @@ export class Mat4 {
     this.m33 = m33;
     return this;
   }
-  setScalar(scalar: number): Mat4 {
+  setScalar(scalar: number): this {
     this.m00 = scalar;
     this.m01 = scalar;
     this.m02 = scalar;
@@ -378,7 +378,7 @@ export class Mat4 {
     this.m33 = scalar;
     return this;
   }
-  copy(v: Mat4): Mat4 {
+  copy(v: Mat4): this {
     this.m00 = v.m00;
     this.m01 = v.m01;
     this.m02 = v.m02;
@@ -397,7 +397,7 @@ export class Mat4 {
     this.m33 = v.m33;
     return this;
   }
-  identity(): Mat4 {
+  identity(): this {
     this.m00 = 1.0;
     this.m01 = 0.0;
     this.m02 = 0.0;
@@ -416,7 +416,7 @@ export class Mat4 {
     this.m33 = 1.0;
     return this;
   }
-  transpose(): Mat4 {
+  transpose(): this {
     const m01 = this.m01;
     const m02 = this.m02;
     const m03 = this.m03;
@@ -443,7 +443,7 @@ export class Mat4 {
     this.m32 = m23;
     return this;
   }
-  multiply(v: Mat4): Mat4 {
+  multiply(v: Mat4): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
@@ -478,7 +478,7 @@ export class Mat4 {
     this.m33 = m03 * v.m30 + m13 * v.m31 + m23 * v.m32 + m33 * v.m33;
     return this;
   }
-  translate(v: Vec3): Mat4 {
+  translate(v: Vec3): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
@@ -501,7 +501,7 @@ export class Mat4 {
     this.m33 = v.x * m03 + v.y * m13 + v.z * m23 + m33;
     return this;
   }
-  rotate(radian: number, axis: Vec3): Mat4 {
+  rotate(radian: number, axis: Vec3): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;
@@ -547,7 +547,7 @@ export class Mat4 {
     }
     return this;
   }
-  scale(v: Vec3): Mat4 {
+  scale(v: Vec3): this {
     this.m00 *= v.x;
     this.m01 *= v.x;
     this.m02 *= v.x;
@@ -562,7 +562,7 @@ export class Mat4 {
     this.m23 *= v.z;
     return this;
   }
-  invert(): Mat4 {
+  invert(): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m02 = this.m02;

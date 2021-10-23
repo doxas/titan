@@ -32,84 +32,84 @@ export class Vec4 {
   }
 
   /** chain method ========================================================== */
-  set(x: number, y: number, z: number, w: number): Vec4 {
+  set(x: number, y: number, z: number, w: number): this {
     this.x = x;
     this.y = y;
     this.z = z;
     this.w = w;
     return this;
   }
-  setScalar(scalar: number): Vec4 {
+  setScalar(scalar: number): this {
     this.x = scalar;
     this.y = scalar;
     this.z = scalar;
     this.w = scalar;
     return this;
   }
-  copy(v: Vec4): Vec4 {
+  copy(v: Vec4): this {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;
     this.w = v.w;
     return this;
   }
-  add(v: Vec4): Vec4 {
+  add(v: Vec4): this {
     this.x += v.x;
     this.y += v.y;
     this.z += v.z;
     this.w += v.w;
     return this;
   }
-  sub(v: Vec4): Vec4 {
+  sub(v: Vec4): this {
     this.x -= v.x;
     this.y -= v.y;
     this.z -= v.z;
     this.w -= v.w;
     return this;
   }
-  mul(v: Vec4): Vec4 {
+  mul(v: Vec4): this {
     this.x *= v.x;
     this.y *= v.y;
     this.z *= v.z;
     this.w *= v.w;
     return this;
   }
-  div(v: Vec4): Vec4 {
+  div(v: Vec4): this {
     this.x /= v.x;
     this.y /= v.y;
     this.z /= v.z;
     this.w /= v.w;
     return this;
   }
-  addScalar(v: number): Vec4 {
+  addScalar(v: number): this {
     this.x += v;
     this.y += v;
     this.z += v;
     this.w += v;
     return this;
   }
-  subScalar(v: number): Vec4 {
+  subScalar(v: number): this {
     this.x -= v;
     this.y -= v;
     this.z -= v;
     this.w -= v;
     return this;
   }
-  mulScalar(v: number): Vec4 {
+  mulScalar(v: number): this {
     this.x *= v;
     this.y *= v;
     this.z *= v;
     this.w *= v;
     return this;
   }
-  divScalar(v: number): Vec4 {
+  divScalar(v: number): this {
     this.x /= v;
     this.y /= v;
     this.z /= v;
     this.w /= v;
     return this;
   }
-  lerp(t: number, v: Vec4): Vec4 {
+  lerp(t: number, v: Vec4): this {
     const diff = v.subClone(this);
     this.x = this.x + diff.x * t;
     this.y = this.y + diff.y * t;
@@ -117,7 +117,7 @@ export class Vec4 {
     this.w = this.w + diff.w * t;
     return this;
   }
-  normalize(): Vec4 {
+  normalize(): this {
     const length = this.length;
     if(length !== 0.0) {
       this.x /= length;
@@ -127,14 +127,14 @@ export class Vec4 {
     }
     return this;
   }
-  negate(): Vec4 {
+  negate(): this {
     this.x = -this.x;
     this.y = -this.y;
     this.z = -this.z;
     this.w = -this.w;
     return this;
   }
-  invert(): Vec4 {
+  invert(): this {
     this.x = 1.0 / this.x;
     this.y = 1.0 / this.y;
     this.z = 1.0 / this.z;

@@ -30,80 +30,80 @@ export class Vec3 {
   }
 
   /** chain method ========================================================== */
-  set(x: number, y: number, z: number): Vec3 {
+  set(x: number, y: number, z: number): this {
     this.x = x;
     this.y = y;
     this.z = z;
     return this;
   }
-  setScalar(scalar: number): Vec3 {
+  setScalar(scalar: number): this {
     this.x = scalar;
     this.y = scalar;
     this.z = scalar;
     return this;
   }
-  copy(v: Vec3): Vec3 {
+  copy(v: Vec3): this {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;
     return this;
   }
-  add(v: Vec3): Vec3 {
+  add(v: Vec3): this {
     this.x += v.x;
     this.y += v.y;
     this.z += v.z;
     return this;
   }
-  sub(v: Vec3): Vec3 {
+  sub(v: Vec3): this {
     this.x -= v.x;
     this.y -= v.y;
     this.z -= v.z;
     return this;
   }
-  mul(v: Vec3): Vec3 {
+  mul(v: Vec3): this {
     this.x *= v.x;
     this.y *= v.y;
     this.z *= v.z;
     return this;
   }
-  div(v: Vec3): Vec3 {
+  div(v: Vec3): this {
     this.x /= v.x;
     this.y /= v.y;
     this.z /= v.z;
     return this;
   }
-  addScalar(v: number): Vec3 {
+  addScalar(v: number): this {
     this.x += v;
     this.y += v;
     this.z += v;
     return this;
   }
-  subScalar(v: number): Vec3 {
+  subScalar(v: number): this {
     this.x -= v;
     this.y -= v;
     this.z -= v;
     return this;
   }
-  mulScalar(v: number): Vec3 {
+  mulScalar(v: number): this {
     this.x *= v;
     this.y *= v;
     this.z *= v;
     return this;
   }
-  divScalar(v: number): Vec3 {
+  divScalar(v: number): this {
     this.x /= v;
     this.y /= v;
     this.z /= v;
     return this;
   }
-  lerp(t: number, v: Vec3): Vec3 {
+  lerp(t: number, v: Vec3): this {
     const diff = v.subClone(this);
     this.x = this.x + diff.x * t;
     this.y = this.y + diff.y * t;
     this.z = this.z + diff.z * t;
     return this;
   }
-  normalize(): Vec3 {
+  normalize(): this {
     const length = this.length;
     if(length !== 0.0) {
       this.x /= length;
@@ -112,13 +112,13 @@ export class Vec3 {
     }
     return this;
   }
-  negate(): Vec3 {
+  negate(): this {
     this.x = -this.x;
     this.y = -this.y;
     this.z = -this.z;
     return this;
   }
-  invert(): Vec3 {
+  invert(): this {
     this.x = 1.0 / this.x;
     this.y = 1.0 / this.y;
     this.z = 1.0 / this.z;

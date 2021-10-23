@@ -59,42 +59,42 @@ export class Mat2 {
     m01: number,
     m10: number,
     m11: number,
-  ): Mat2 {
+  ): this {
     this.m00 = m00;
     this.m01 = m01;
     this.m10 = m10;
     this.m11 = m11;
     return this;
   }
-  setScalar(scalar: number): Mat2 {
+  setScalar(scalar: number): this {
     this.m00 = scalar;
     this.m01 = scalar;
     this.m10 = scalar;
     this.m11 = scalar;
     return this;
   }
-  copy(v: Mat2): Mat2 {
+  copy(v: Mat2): this {
     this.m00 = v.m00;
     this.m01 = v.m01;
     this.m10 = v.m10;
     this.m11 = v.m11;
     return this;
   }
-  identity(): Mat2 {
+  identity(): this {
     this.m00 = 1.0;
     this.m01 = 0.0;
     this.m10 = 0.0;
     this.m11 = 1.0;
     return this;
   }
-  transpose(): Mat2 {
+  transpose(): this {
     const m01 = this.m01;
     const m10 = this.m10;
     this.m01 = m01;
     this.m10 = m10;
     return this;
   }
-  multiply(v: Mat2): Mat2 {
+  multiply(v: Mat2): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m10 = this.m10;
@@ -105,7 +105,7 @@ export class Mat2 {
     this.m11 = m01 * v.m10 + m11 * v.m11;
     return this;
   }
-  rotate(radian: number): Mat2 {
+  rotate(radian: number): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m10 = this.m10;
@@ -118,14 +118,14 @@ export class Mat2 {
     this.m11 = m01 * -sin + m11 * cos;
     return this;
   }
-  scale(v: Vec2): Mat2 {
+  scale(v: Vec2): this {
     this.m00 *= v.x;
     this.m01 *= v.x;
     this.m10 *= v.y;
     this.m11 *= v.y;
     return this;
   }
-  invert(): Mat2 {
+  invert(): this {
     const m00 = this.m00;
     const m01 = this.m01;
     const m10 = this.m10;
