@@ -1,5 +1,4 @@
 
-import { Pipeline } from '../Core/Pipeline';
 import { Base } from './Base';
 
 export interface ITextureResource {
