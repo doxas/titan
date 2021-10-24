@@ -28,7 +28,7 @@ export class VertexAttribute extends Base {
   }
 
   /** getter ================================================================ */
-  get vertexBufferLayout(): GPUVertexBufferLayout {
+  get bufferLayout(): GPUVertexBufferLayout {
     return this._bufferLayout;
   }
 
