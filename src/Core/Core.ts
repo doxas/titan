@@ -3,6 +3,7 @@ import { Pipeline } from './Pipeline';
 import { Framebuffer } from '../Common/Framebuffer';
 import { Scene } from '../Common/Scene';
 import { Camera } from '../Common/Camera';
+import { Texture } from '../Common/Texture';
 import { Logger } from '../Utility/Logger';
 
 export interface ICoreInitialize {
@@ -43,7 +44,8 @@ export class Core {
   device: GPUDevice;
   queue: GPUQueue;
   context: GPUCanvasContext;
-  depthTexture: GPUTexture;
+  depthTexture: Texture;
+  depthTextureData: GPUTexture;
   depthTextureView: GPUTextureView;
   width: number;
   height: number;
@@ -143,10 +145,8 @@ export class Core {
       format: 'depth24plus-stencil8',
       usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC, 
     };
-    if (this.depthTexture != null) {
-      this.depthTexture.destroy();
-    }
-    this.depthTexture = this.device.createTexture(descriptor);
-    this.depthTextureView = this.depthTexture.createView();
+    this.depthTexture.set(descriptor).createByDevice(this.device);
+    this.depthTextureData = this.depthTexture.data;
+    this.depthTextureView = this.depthTexture.view;
   }
 }
