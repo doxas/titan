@@ -85,7 +85,7 @@ export class Texture extends Base {
   }
 
   /** method ================================================================ */
-  createByPipeline(pipeline: Pipeline): void {
+  createByDevice(device: GPUDevice): void {
     if (!this._changed) {return;}
 
     this.destroy();
@@ -96,7 +96,7 @@ export class Texture extends Base {
       format: this._format,
       usage: this._usage,
     };
-    this._texture = pipeline.device.createTexture(descriptor);
+    this._texture = device.createTexture(descriptor);
     this._view = this._texture.createView();
 
     // TODO: exists source

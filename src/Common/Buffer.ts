@@ -52,7 +52,7 @@ export class Buffer extends Base {
   }
 
   /** method ================================================================ */
-  createByPipeline(pipeline: Pipeline): void {
+  createByDevice(device: GPUDevice): void {
     if (!this._changed) {return;}
     this.destroy();
     const descriptor: GPUBufferDescriptor = {
@@ -60,7 +60,7 @@ export class Buffer extends Base {
       mappedAtCreation: true,
       usage: this._usage,
     };
-    this._buffer = pipeline.device.createBuffer(descriptor);
+    this._buffer = device.createBuffer(descriptor);
 
     const writeArray = this._array instanceof Uint16Array
       ? new Uint16Array(this._buffer.getMappedRange())
