@@ -1,17 +1,29 @@
 
 import { Base } from './Base';
+import { VertexAttribute } from './VertexAttribute';
 
 export interface IMaterial {
   vertexShaderSource?: string;
   fragmentShaderSource?: string;
-  computeShaderSource?: string;
   vertexShaderSourceMap?: object;
   fragmentShaderSourceMap?: object;
-  computeShaderSourceMap?: object;
+  vertexShaderEntryPoint?: string;
+  fragmentShaderEntryPoint?: string;
+  colorTargetStateFormat?: GPUTextureFormat;
+  colorTargetStateBlend?: GPUBlendState;
+  colorTargetStateWriteMask?: GPUColorWriteFlags;
 }
 
 export class Material extends Base {
   /** static getter ========================================================= */
+  static get ENTRY_POINT_NAME(): string {return 'main';}
+  static get COLOR_TARGET_STATE_FORMAT(): GPUTextureFormat {return 'bgra8unorm';}
+  static get COLOR_TARGET_STATE_BLEND(): GPUBlendState {
+    const color: GPUBlendComponent = {operation: 'add', srcFactor: 'one', dstFactor: 'zero'};
+    const alpha: GPUBlendComponent = {operation: 'add', srcFactor: 'one', dstFactor: 'zero'};
+    return {color, alpha};
+  }
+  static get COLOR_TARGET_STATE_WRITE_MASK(): GPUColorWriteFlags {return GPUColorWrite.ALL;}
 
   /** static method ========================================================= */
 
@@ -22,16 +34,20 @@ export class Material extends Base {
   /** property ============================================================== */
   vertexShaderSource: string;
   fragmentShaderSource: string;
-  computeShaderSource: string;
   vertexShaderSourceMap: object;
   fragmentShaderSourceMap: object;
-  computeShaderSourceMap: object;
+  vertexShaderEntryPoint: string;
+  fragmentShaderEntryPoint: string;
+  colorTargetStateFormat: GPUTextureFormat;
+  colorTargetStateBlend: GPUBlendState;
+  colorTargetStateWriteMask: GPUColorWriteFlags;
+  // private?
   vertexShaderModule: GPUShaderModule;
   fragmentShaderModule: GPUShaderModule;
-  computeShaderModule: GPUShaderModule;
   vertexShaderInfo: GPUCompilationInfo;
   fragmentShaderInfo: GPUCompilationInfo;
-  computeShaderInfo: GPUCompilationInfo;
+  vertexShaderState: GPUVertexState;
+  fragmentShaderState: GPUFragmentState;
 
   /** constructor =========================================================== */
   constructor(option: IMaterial) {
@@ -43,26 +59,31 @@ export class Material extends Base {
   set(option: IMaterial): this {
     this.vertexShaderSource = option.vertexShaderSource != null ? option.vertexShaderSource : '';
     this.fragmentShaderSource = option.fragmentShaderSource != null ? option.fragmentShaderSource : '';
-    this.computeShaderSource = option.computeShaderSource != null ? option.computeShaderSource : '';
     this.vertexShaderSourceMap = option.vertexShaderSourceMap != null ? option.vertexShaderSourceMap : null;
     this.fragmentShaderSourceMap = option.fragmentShaderSourceMap != null ? option.fragmentShaderSourceMap : null;
-    this.computeShaderSourceMap = option.computeShaderSourceMap != null ? option.computeShaderSourceMap : null;
+    this.vertexShaderEntryPoint = option.vertexShaderEntryPoint != null ? option.vertexShaderEntryPoint : Material.ENTRY_POINT_NAME;
+    this.fragmentShaderEntryPoint = option.fragmentShaderEntryPoint != null ? option.fragmentShaderEntryPoint : Material.ENTRY_POINT_NAME;
+    this.colorTargetStateFormat = option.colorTargetStateFormat != null ? option.colorTargetStateFormat : Material.COLOR_TARGET_STATE_FORMAT;
+    this.colorTargetStateBlend = option.colorTargetStateBlend != null ? option.colorTargetStateBlend : Material.COLOR_TARGET_STATE_BLEND;
+    this.colorTargetStateWriteMask = option.colorTargetStateWriteMask != null ? option.colorTargetStateWriteMask : Material.COLOR_TARGET_STATE_WRITE_MASK;
     this._changed = true;
     return this;
   }
   destroy(): this {
     this.vertexShaderSource = '';
     this.fragmentShaderSource = '';
-    this.computeShaderSource = '';
     this.vertexShaderSourceMap = null;
     this.fragmentShaderSourceMap = null;
-    this.computeShaderSourceMap = null;
+    this.vertexShaderEntryPoint = Material.ENTRY_POINT_NAME;
+    this.fragmentShaderEntryPoint = Material.ENTRY_POINT_NAME;
+    this.colorTargetStateFormat = Material.COLOR_TARGET_STATE_FORMAT;
+    this.colorTargetStateBlend = Material.COLOR_TARGET_STATE_BLEND;
+    this.colorTargetStateWriteMask = Material.COLOR_TARGET_STATE_WRITE_MASK;
+    // private?
     this.vertexShaderModule = null;
     this.fragmentShaderModule = null;
-    this.computeShaderModule = null;
     this.vertexShaderInfo = null;
     this.fragmentShaderInfo = null;
-    this.computeShaderInfo = null;
     this._changed = false;
     return this;
   }
@@ -80,6 +101,23 @@ export class Material extends Base {
       this.vertexShaderInfo = await this.vertexShaderModule.compilationInfo();
       if (this.vertexShaderInfo.messages.length > 0) {
         succeeded = false;
+      } else {
+        // compilation success then...
+        const positionAttribute = new VertexAttribute({
+          format: 'float32x3',
+          offset: 0,
+          shaderLocation: 0,
+        });
+        const colorAttribute = new VertexAttribute({
+          format: 'float32x3',
+          offset: 0,
+          shaderLocation: 1,
+        });
+        this.vertexShaderState = {
+          module: this.vertexShaderModule,
+          entryPoint: this.vertexShaderEntryPoint,
+          buffers: [positionAttribute.bufferLayout, colorAttribute.bufferLayout],
+        };
       }
     }
     if (this.fragmentShaderSource !== '') {
@@ -90,16 +128,18 @@ export class Material extends Base {
       this.fragmentShaderInfo = await this.fragmentShaderModule.compilationInfo();
       if (this.fragmentShaderInfo.messages.length > 0) {
         succeeded = false;
-      }
-    }
-    if (this.computeShaderSource !== '') {
-      const code = this.computeShaderSource;
-      const sourceMap = this.computeShaderSourceMap;
-      const descriptor: GPUShaderModuleDescriptor = {code, sourceMap};
-      this.computeShaderModule = device.createShaderModule(descriptor);
-      this.computeShaderInfo = await this.computeShaderModule.compilationInfo();
-      if (this.computeShaderInfo.messages.length > 0) {
-        succeeded = false;
+      } else {
+        // compilation success then...
+        const colorTargetState: GPUColorTargetState = {
+          format: this.colorTargetStateFormat,
+          blend: this.colorTargetStateBlend,
+          writeMask: this.colorTargetStateWriteMask,
+        };
+        this.fragmentShaderState = {
+          module: this.fragmentShaderModule,
+          entryPoint: this.fragmentShaderEntryPoint,
+          targets: [colorTargetState],
+        };
       }
     }
     return succeeded;
