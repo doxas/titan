@@ -56,9 +56,6 @@ export class VertexAttribute extends Base {
     return this;
   }
   destroy(): this {
-    this.format = null;
-    this.offset = 0;
-    this.shaderLocation = 0;
     this._attribute = null;
     this._bufferLayout = null;
     this._changed = false;

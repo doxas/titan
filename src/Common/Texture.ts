@@ -72,12 +72,6 @@ export class Texture extends Base {
     if (this._texture != null) {
       this._texture.destroy();
       this._texture = null;
-      this._width = 0;
-      this._height = 0;
-      this._depth = 0;
-      this._format = null;
-      this._usage = null;
-      this._source = null;
     }
     this._changed = false;
     return this;

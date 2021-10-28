@@ -42,12 +42,6 @@ export class Pipeline {
     const typedArray = new Uint16Array(indices);
     return this._buffer.create(typedArray, GPUBufferUsage.INDEX);
   }
-  createShaderModule(source: string): GPUShaderModule {
-    return this._shaderModule.create(source);
-  }
-  getShaderInfo(module: GPUShaderModule): Promise<GPUCompilationInfo> {
-    return module.compilationInfo();
-  }
 
   /** method ================================================================ */
   setFramebuffer(v: Framebuffer): void {
