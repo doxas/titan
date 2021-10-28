@@ -19,7 +19,7 @@ export class VertexBuffer extends Base {
   /** property ============================================================== */
   source: number[] | Float32Array;
   shaderLocation: GPUIndex32;
-  array: Buffer;
+  buffer: Buffer;
 
   /** constructor =========================================================== */
   constructor(option: IVertexBuffer) {
@@ -35,15 +35,15 @@ export class VertexBuffer extends Base {
     return this;
   }
   destroy(): this {
-    this.array.destroy();
-    this.array = null;
+    this.buffer.destroy();
+    this.buffer = null;
     this._changed = false;
     return this;
   }
   create(): this {
     if (!this._changed) {return;}
     this.destroy();
-    this.array = new Buffer({
+    this.buffer = new Buffer({
       typedArray: Float32Array.from(this.source),
       usage: GPUBufferUsage.VERTEX,
     });
