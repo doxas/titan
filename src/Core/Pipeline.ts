@@ -8,39 +8,33 @@ export class Pipeline {
 
   /** getter ================================================================ */
   get framebuffer(): Framebuffer {
-    return this.currentFramebuffer;
+    return this._currentFramebuffer;
   }
 
   /** setter ================================================================ */
   set framebuffer(v: Framebuffer) {
-    this.currentFramebuffer = v;
+    this._currentFramebuffer = v;
   }
 
   /** property ============================================================== */
   device: GPUDevice;
   context: GPUCanvasContext;
   queue: GPUQueue;
-  private currentFramebuffer: Framebuffer;
+  private _defaultFramebuffer: Framebuffer;
+  private _currentFramebuffer: Framebuffer;
 
   /** constructor =========================================================== */
   constructor(device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
     this.device = device;
     this.context = context;
     this.queue = queue;
+    this._defaultFramebuffer = new Framebuffer();
   }
 
   /** chain method ========================================================== */
   setup(): this {
     // setup pipeline
     return this;
-  }
-  createVertexBuffer(attribute: number[] | Float32Array): GPUBuffer {
-    const typedArray = new Float32Array(attribute);
-    return this._buffer.create(typedArray, GPUBufferUsage.VERTEX);
-  }
-  createIndexBuffer(indices: number[] | Uint16Array): GPUBuffer {
-    const typedArray = new Uint16Array(indices);
-    return this._buffer.create(typedArray, GPUBufferUsage.INDEX);
   }
 
   /** method ================================================================ */
