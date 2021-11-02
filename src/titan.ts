@@ -21,6 +21,7 @@ import { Scene } from './Common/Scene';
 import { Texture } from './Common/Texture';
 import { VertexAttribute } from './Common/VertexAttribute';
 import { VertexBuffer } from './Common/VertexBuffer';
+import { IndexBuffer } from './Common/IndexBuffer';
 
 export class TITAN {
   // core
@@ -39,6 +40,7 @@ export class TITAN {
   static get Texture() {return Texture;}
   static get VertexAttribute() {return VertexAttribute;}
   static get VertexBuffer() {return VertexBuffer;}
+  static get IndexBuffer() {return IndexBuffer;}
   // math
   static get Vec2() {return Vec2;}
   static get Vec3() {return Vec3;}
