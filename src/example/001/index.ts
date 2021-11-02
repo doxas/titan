@@ -33,58 +33,28 @@ window.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // shader
-  const vsModule = titan.createShaderModule(vsSource);
-  const vsModuleLog = await titan.getShaderInfo(vsModule);
-  if (vsModuleLog.messages.length > 0) {
-    vsModuleLog.messages.forEach((v) => {
-      console.log(v.message);
-    });
-    return;
-  }
-  const fsModule = titan.createShaderModule(fsSource);
-  const fsModuleLog = await titan.getShaderInfo(fsModule);
-  if (fsModuleLog.messages.length > 0) {
-    fsModuleLog.messages.forEach((v) => {
-      console.log(v.message);
-    });
-    return;
-  }
+  // material
+  const materialOption = {
+    vertexShaderSource: vsSource,
+    fragmentShaderSource: fsSource,
+  };
+  const material = new TITAN.Material(materialOption);
 
-  // pipeline
-  const positionAttribute = TITAN.Layout.vertexAttribute('float32x3', 0);
-  const colorAttribute = TITAN.Layout.vertexAttribute('float32x3', 1);
-  const positionBufferLayout = TITAN.Layout.vertexBufferLayout(
-    4 * 3, // float x 3
-    [positionAttribute],
-    'vertex',
-  );
-  const colorBufferLayout = TITAN.Layout.vertexBufferLayout(
-    4 * 3, // float x 3
-    [colorAttribute],
-    'vertex',
-  );
-  const vertexShader = TITAN.State.vertexState(vsModule, 'main', [positionBufferLayout, colorBufferLayout]);
-  const colorState = TITAN.State.colorTargetState('bgra8unorm');
-  const fragmentShader = TITAN.State.fragmentState(fsModule, 'main', [colorState]);
-
-  const positionBuffer = titan.createVertexBuffer(position);
-  const colorBuffer = titan.createVertexBuffer(color);
-  const indexBuffer = titan.createIndexBuffer(indices);
-
-  const depthStencilState = TITAN.State.depthStencilState('depth24plus-stencil8', true, 'less');
-  const pipelineLayout = titan.createPipelineLayout(TITAN.Descriptor.pipelineLayoutDescriptor([]));
-  const primitiveState = TITAN.State.primitiveState('triangle-list');
-  const multisampleState = TITAN.State.multisampleState();
-
-  const renderPipelineDescriptor = TITAN.Descriptor.renderPipelineDescriptor(
-    vertexShader,
-    fragmentShader,
-    depthStencilState,
-    primitiveState,
-    multisampleState,
-  );
-  const renderPipeline = titan.createRenderPipeline(renderPipelineDescriptor);
+  // buffer
+  const positionBufferOption = {
+    typedArray: position,
+    shaderLocation: 0,
+  };
+  const positionBuffer = new TITAN.VertexBuffer(positionBufferOption);
+  const colorBufferOption = {
+    typedArray: color,
+    shaderLocation: 1,
+  };
+  const colorBuffer = new TITAN.VertexBuffer(colorBufferOption);
+  const indexBufferOption = {
+    typedArray: indices,
+  };
+  const indexBuffer = new TITAN.IndexBuffer(indexBufferOption);
 
   const render = () => {
     requestAnimationFrame(render);
