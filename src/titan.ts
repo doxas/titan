@@ -1,5 +1,6 @@
 
 import { Core } from './Core/Core';
+import { Pipeline } from './Core/Pipeline';
 import { CONSTANT } from './Core/Constant';
 import { Vec2 } from './Math/Vec2';
 import { Vec3 } from './Math/Vec3';
@@ -9,12 +10,35 @@ import { Mat3 } from './Math/Mat3';
 import { Mat4 } from './Math/Mat4';
 import { Loader } from './Utility/Loader';
 import { Logger } from './Utility/Logger';
+import { Base } from './Common/Base';
+import { Base3D } from './Common/Base3D';
+import { Buffer } from './Common/Buffer';
+import { Camera } from './Common/Camera';
+import { Framebuffer } from './Common/Framebuffer';
+import { Geometry } from './Common/Geometry';
+import { Material } from './Common/Material';
+import { Scene } from './Common/Scene';
+import { Texture } from './Common/Texture';
+import { VertexAttribute } from './Common/VertexAttribute';
+import { VertexBuffer } from './Common/VertexBuffer';
 
 export class TITAN {
   // core
   static get CONSTANT() {return CONSTANT;}
   static get Core() {return Core;}
+  static get Pipeline() {return Pipeline;}
   // common
+  static get Base() {return Base;}
+  static get Base3D() {return Base3D;}
+  static get Buffer() {return Buffer;}
+  static get Camera() {return Camera;}
+  static get Framebuffer() {return Framebuffer;}
+  static get Geometry() {return Geometry;}
+  static get Material() {return Material;}
+  static get Scene() {return Scene;}
+  static get Texture() {return Texture;}
+  static get VertexAttribute() {return VertexAttribute;}
+  static get VertexBuffer() {return VertexBuffer;}
   // math
   static get Vec2() {return Vec2;}
   static get Vec3() {return Vec3;}
