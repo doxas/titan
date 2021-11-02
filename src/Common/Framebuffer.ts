@@ -129,6 +129,7 @@ export class Framebuffer extends Base {
       colorAttachments,
       depthStencilAttachment,
     };
+    this._renderPassDescriptor = renderPassDescriptor;
 
     return renderPassDescriptor;
   }
