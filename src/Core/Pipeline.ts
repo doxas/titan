@@ -1,5 +1,6 @@
 
 import { Framebuffer } from '../Common/Framebuffer';
+import { Material } from '../Common/Material';
 
 export class Pipeline {
   /** static getter ========================================================= */
@@ -7,46 +8,55 @@ export class Pipeline {
   /** static method ========================================================= */
 
   /** getter ================================================================ */
-  get framebuffer(): Framebuffer {
-    return this._currentFramebuffer;
-  }
 
   /** setter ================================================================ */
-  set framebuffer(v: Framebuffer) {
-    this._currentFramebuffer = v;
-  }
 
   /** property ============================================================== */
   device: GPUDevice;
   context: GPUCanvasContext;
   queue: GPUQueue;
-  private _defaultFramebuffer: Framebuffer;
-  private _currentFramebuffer: Framebuffer;
+  depthStencilState: GPUDepthStencilState;
+  primitiveState: GPUPrimitiveState;
+  multisampleState: GPUMultisampleState;
+  pipelineLayoutDescriptor: GPUPipelineLayoutDescriptor;
+  pipelineLayout: GPUPipelineLayout;
+  renderPipelineDescriptor: GPURenderPipelineDescriptor;
+  renderPipeline: GPURenderPipeline;
 
   /** constructor =========================================================== */
   constructor(device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
     this.device = device;
     this.context = context;
     this.queue = queue;
-    this._defaultFramebuffer = new Framebuffer();
   }
 
   /** chain method ========================================================== */
   setup(): this {
-    // setup pipeline
+    this.depthStencilState = {
+      format: 'depth24plus-stencil8',
+      depthWriteEnabled: true,
+      depthCompare: 'less',
+    };
+    this.pipelineLayoutDescriptor = {bindGroupLayouts: []};
+    this.pipelineLayout = this.device.createPipelineLayout(this.pipelineLayoutDescriptor);
+    // TODO: primitive and multisample, move to prop in material
+    this.primitiveState = {topology: 'triangle-list'};
+    this.multisampleState = {};
+    return this;
+  }
+  setMaterial(material: Material): this {
+    this.renderPipelineDescriptor = {
+      vertex: material.vertexShaderState,
+      fragment: material.fragmentShaderState,
+      depthStencil: this.depthStencilState,
+      primitive: this.primitiveState,
+      multisample: this.multisampleState,
+    };
+    this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
     return this;
   }
 
   /** method ================================================================ */
-  setFramebuffer(v: Framebuffer): void {
-    this.framebuffer = v;
-  }
-  createPipelineLayout(desc: GPUPipelineLayoutDescriptor): GPUPipelineLayout {
-    return this.device.createPipelineLayout(desc);
-  }
-  createRenderPipeline(desc: GPURenderPipelineDescriptor): GPURenderPipeline {
-    return this.device.createRenderPipeline(desc);
-  }
 }
 
 
