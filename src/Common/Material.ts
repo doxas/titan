@@ -73,16 +73,6 @@ export class Material extends Base {
     return this;
   }
   destroy(): this {
-    this.vertexShaderSource = '';
-    this.fragmentShaderSource = '';
-    this.vertexShaderSourceMap = null;
-    this.fragmentShaderSourceMap = null;
-    this.vertexShaderEntryPoint = Material.ENTRY_POINT_NAME;
-    this.fragmentShaderEntryPoint = Material.ENTRY_POINT_NAME;
-    this.colorTargetStateFormat = Material.COLOR_TARGET_STATE_FORMAT;
-    this.colorTargetStateBlend = Material.COLOR_TARGET_STATE_BLEND;
-    this.colorTargetStateWriteMask = Material.COLOR_TARGET_STATE_WRITE_MASK;
-    // private?
     this.vertexShaderModule = null;
     this.fragmentShaderModule = null;
     this.vertexShaderInfo = null;
@@ -110,12 +100,12 @@ export class Material extends Base {
           format: 'float32x3',
           offset: 0,
           shaderLocation: 0,
-        });
+        }).create();
         const colorAttribute = new VertexAttribute({
           format: 'float32x3',
           offset: 0,
           shaderLocation: 1,
-        });
+        }).create();
         this.vertexShaderState = {
           module: this.vertexShaderModule,
           entryPoint: this.vertexShaderEntryPoint,

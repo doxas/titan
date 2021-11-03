@@ -38,16 +38,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     typedArray: position,
     shaderLocation: 0,
   };
-  const positionBuffer = new TITAN.VertexBuffer(positionBufferOption);
+  const positionBuffer = new TITAN.VertexBuffer(positionBufferOption).create();
   const colorBufferOption = {
     typedArray: color,
     shaderLocation: 1,
   };
-  const colorBuffer = new TITAN.VertexBuffer(colorBufferOption);
+  const colorBuffer = new TITAN.VertexBuffer(colorBufferOption).create();
   const indexBufferOption = {
     typedArray: indices,
   };
-  const indexBuffer = new TITAN.IndexBuffer(indexBufferOption);
+  const indexBuffer = new TITAN.IndexBuffer(indexBufferOption).create();
 
   // material
   const materialOption = {
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     fragmentShaderSource: fsSource,
   };
   const material = new TITAN.Material(materialOption);
-  await titan.setup(material);
+  const pipeline = await titan.setup(material);
 
   const render = () => {
     requestAnimationFrame(render);

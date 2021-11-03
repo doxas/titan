@@ -113,9 +113,17 @@ export class Core {
     this.resetDepthTexture();
   }
   async setup(material: Material): Promise<Pipeline> {
-    return await this._pipeline.setMaterial(material);
+    const pipeline = await this._pipeline.setMaterial(material);
+    return pipeline;
   }
   render(positionBuffer: VertexBuffer, colorBuffer: VertexBuffer, indexBuffer: IndexBuffer, option?: IRender): void {
+
+    // TODO: buffers into scene
+    if (positionBuffer.buffer.data == null) {
+      positionBuffer.buffer.createByDevice(this.device);
+      colorBuffer.buffer.createByDevice(this.device);
+      indexBuffer.buffer.createByDevice(this.device);
+    }
 
     const renderPassDescriptor = this._pipeline.framebuffer.getRenderPassDescriptor(this.context);
 

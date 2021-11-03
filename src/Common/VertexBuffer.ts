@@ -35,8 +35,10 @@ export class VertexBuffer extends Base {
     return this;
   }
   destroy(): this {
-    this.buffer.destroy();
-    this.buffer = null;
+    if (this.buffer != null) {
+      this.buffer.destroy();
+      this.buffer = null;
+    }
     this._changed = false;
     return this;
   }
