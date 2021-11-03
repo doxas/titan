@@ -6,6 +6,10 @@ import { Camera } from '../Common/Camera';
 import { Texture } from '../Common/Texture';
 import { Logger } from '../Utility/Logger';
 
+import { Material } from '../Common/Material';
+import { IndexBuffer } from '../Common/IndexBuffer';
+import { VertexBuffer } from '../Common/VertexBuffer';
+
 export interface ICoreInitialize {
   canvas?: HTMLCanvasElement;
   devicePixelRatio?: number;
@@ -84,6 +88,7 @@ export class Core {
 
     // initialze instance (with device)
     this._pipeline = new Pipeline(this.device, this.context, this.queue);
+    this._pipeline.setup();
 
     return true;
   }
@@ -107,8 +112,25 @@ export class Core {
     this.resetContext();
     this.resetDepthTexture();
   }
-  render(option: IRender): void {
-    // render to framebuffer
+  render(material: Material, positionBuffer: VertexBuffer, colorBuffer: VertexBuffer, indexBuffer: IndexBuffer, option?: IRender): void {
+
+    this._pipeline.setMaterial(material);
+    const renderPassDescriptor = this._pipeline.framebuffer.getRenderPassDescriptor(this.context);
+
+    const commandEncoder = this.device.createCommandEncoder();
+    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+    passEncoder.setPipeline(this._pipeline.renderPipeline);
+    passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
+    passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
+
+    passEncoder.setVertexBuffer(0, positionBuffer.buffer.data);
+    passEncoder.setVertexBuffer(1, colorBuffer.buffer.data);
+    passEncoder.setIndexBuffer(indexBuffer.buffer.data, 'uint16');
+    passEncoder.drawIndexed(3, 1);
+    passEncoder.endPass();
+
+    this.queue.submit([commandEncoder.finish()]);
+
   }
 
   /** private method ======================================================== */
@@ -145,7 +167,13 @@ export class Core {
       format: 'depth24plus-stencil8',
       usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC, 
     };
-    this.depthTexture.set(descriptor).createByDevice(this.device);
+    if (this.depthTexture == null) {
+      this.depthTexture = new Texture(descriptor);
+    } else {
+      this.depthTexture.destroy();
+      this.depthTexture.set(descriptor);
+    }
+    this.depthTexture.createByDevice(this.device);
     this.depthTextureData = this.depthTexture.data;
     this.depthTextureView = this.depthTexture.view;
   }
