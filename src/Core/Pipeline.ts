@@ -1,6 +1,7 @@
 
 import { Framebuffer } from '../Common/Framebuffer';
 import { Material } from '../Common/Material';
+import { Texture } from '../Common/Texture';
 import { Vec4 } from '../Math/Vec4';
 
 export class Pipeline {
@@ -26,7 +27,7 @@ export class Pipeline {
   framebuffer: Framebuffer;
 
   /** constructor =========================================================== */
-  constructor(device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
+  constructor(width: number, height: number, device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
     this.device = device;
     this.context = context;
     this.queue = queue;
@@ -37,6 +38,17 @@ export class Pipeline {
       clearColor: new Vec4(0.3, 0.3, 0.3, 1.0),
     };
     this.framebuffer = new Framebuffer(framebufferOption);
+
+    const size: GPUExtent3D = [width, height, 1];
+    const descriptor: GPUTextureDescriptor = {
+      size: size,
+      format: 'depth24plus-stencil8',
+      usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC, 
+    };
+    const depthTexture = new Texture(descriptor);
+    depthTexture.createByDevice(this.device);
+
+    this.framebuffer.setDepthStencilTexture(depthTexture.data);
   }
 
   /** chain method ========================================================== */
@@ -53,19 +65,24 @@ export class Pipeline {
     this.multisampleState = {};
     return this;
   }
-  setMaterial(material: Material): this {
-    this.renderPipelineDescriptor = {
-      vertex: material.vertexShaderState,
-      fragment: material.fragmentShaderState,
-      depthStencil: this.depthStencilState,
-      primitive: this.primitiveState,
-      multisample: this.multisampleState,
-    };
-    this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
-    return this;
-  }
 
   /** method ================================================================ */
+  async setMaterial(material: Material): Promise<this> {
+    if (material.changed) {
+      const succeeded = await material.createByDevice(this.device);
+      if (succeeded) {
+        this.renderPipelineDescriptor = {
+          vertex: material.vertexShaderState,
+          fragment: material.fragmentShaderState,
+          depthStencil: this.depthStencilState,
+          primitive: this.primitiveState,
+          multisample: this.multisampleState,
+        };
+        this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
+      }
+    }
+    return this;
+  }
 }
 
 

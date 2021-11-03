@@ -55,10 +55,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     fragmentShaderSource: fsSource,
   };
   const material = new TITAN.Material(materialOption);
+  await titan.setup(material);
 
   const render = () => {
     requestAnimationFrame(render);
-    titan.render(material, positionBuffer, colorBuffer, indexBuffer);
+    // temporary arguments...
+    titan.render(positionBuffer, colorBuffer, indexBuffer);
   };
 
   render();

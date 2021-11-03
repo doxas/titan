@@ -11,28 +11,28 @@ export class Emitter {
   /** setter ================================================================ */
 
   /** property ============================================================== */
-  listener: {[key: string]: callback[]};
+  private _listener: {[key: string]: callback[]};
 
   /** constructor =========================================================== */
   constructor() {
-    this.listener = {};
+    this._listener = {};
   }
 
   /** chain method ========================================================== */
 
   /** method ================================================================ */
   on(eventName: string, callbackFunction: callback): void {
-    if (Array.isArray(this.listener[eventName]) !== true) {
-      this.listener[eventName] = [];
+    if (Array.isArray(this._listener[eventName]) !== true) {
+      this._listener[eventName] = [];
     }
-    this.listener[eventName].push(callbackFunction);
+    this._listener[eventName].push(callbackFunction);
   }
   off(eventName: string, callback: callback): boolean {
     let removed = false;
-    if (Array.isArray(this.listener[eventName]) === true) {
-      this.listener[eventName].forEach((listener, index) => {
+    if (Array.isArray(this._listener[eventName]) === true) {
+      this._listener[eventName].forEach((listener, index) => {
         if (listener === callback) {
-          this.listener[eventName].splice(index, 1);
+          this._listener[eventName].splice(index, 1);
           removed = true;
         }
       });

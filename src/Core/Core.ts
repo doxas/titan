@@ -87,7 +87,7 @@ export class Core {
     this.resize(width, height);
 
     // initialze instance (with device)
-    this._pipeline = new Pipeline(this.device, this.context, this.queue);
+    this._pipeline = new Pipeline(this._deviceWidth, this._deviceHeight, this.device, this.context, this.queue);
     this._pipeline.setup();
 
     return true;
@@ -112,9 +112,11 @@ export class Core {
     this.resetContext();
     this.resetDepthTexture();
   }
-  render(material: Material, positionBuffer: VertexBuffer, colorBuffer: VertexBuffer, indexBuffer: IndexBuffer, option?: IRender): void {
+  async setup(material: Material): Promise<Pipeline> {
+    return await this._pipeline.setMaterial(material);
+  }
+  render(positionBuffer: VertexBuffer, colorBuffer: VertexBuffer, indexBuffer: IndexBuffer, option?: IRender): void {
 
-    this._pipeline.setMaterial(material);
     const renderPassDescriptor = this._pipeline.framebuffer.getRenderPassDescriptor(this.context);
 
     const commandEncoder = this.device.createCommandEncoder();
