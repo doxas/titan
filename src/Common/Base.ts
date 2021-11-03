@@ -1,7 +1,8 @@
 
-import { v4 as uuidv4 } from 'uuid';
+import { Emitter } from './Emitter';
+import { UUID } from '../Utility/UUID';
 
-export class Base {
+export class Base extends Emitter {
   /** static getter ========================================================= */
 
   /** static method ========================================================= */
@@ -17,8 +18,10 @@ export class Base {
 
   /** constructor =========================================================== */
   constructor() {
+    super();
+
     this.name = 'common';
-    this.uuid = uuidv4();
+    this.uuid = UUID.generate();
     this._changed = false;
   }
 
