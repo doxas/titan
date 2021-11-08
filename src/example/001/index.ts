@@ -33,21 +33,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // buffer
-  const positionBufferOption = {
-    typedArray: position,
-    shaderLocation: 0,
+  const geometryOption = {
+    vertexBufferSource: [position, color],
+    indexBufferSource: indices,
   };
-  const positionBuffer = new TITAN.VertexBuffer(positionBufferOption).create();
-  const colorBufferOption = {
-    typedArray: color,
-    shaderLocation: 1,
-  };
-  const colorBuffer = new TITAN.VertexBuffer(colorBufferOption).create();
-  const indexBufferOption = {
-    typedArray: indices,
-  };
-  const indexBuffer = new TITAN.IndexBuffer(indexBufferOption).create();
+  const geometry = new TITAN.Geometry(geometryOption);
 
   // material
   const materialOption = {
@@ -60,7 +50,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const render = () => {
     requestAnimationFrame(render);
     // temporary arguments...
-    titan.render(positionBuffer, colorBuffer, indexBuffer);
+    titan.render(geometry);
   };
 
   render();
