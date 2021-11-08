@@ -6,8 +6,6 @@ import { IndexBuffer } from './IndexBuffer';
 export interface IGeometry {
   vertexBufferSource: number[][];
   indexBufferSource?: number[];
-  // vertexBuffer: VertexBuffer | VertexBuffer[];
-  // indexBuffer?: IndexBuffer;
 }
 
 export class Geometry extends Base {
