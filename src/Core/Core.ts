@@ -9,6 +9,7 @@ import { Logger } from '../Utility/Logger';
 import { Material } from '../Common/Material';
 import { IndexBuffer } from '../Common/IndexBuffer';
 import { VertexBuffer } from '../Common/VertexBuffer';
+import { Geometry } from '../Common/Geometry';
 
 export interface ICoreInitialize {
   canvas?: HTMLCanvasElement;
@@ -116,14 +117,10 @@ export class Core {
     const pipeline = await this._pipeline.setMaterial(material);
     return pipeline;
   }
-  render(positionBuffer: VertexBuffer, colorBuffer: VertexBuffer, indexBuffer: IndexBuffer, option?: IRender): void {
+  render(geometry: Geometry, option?: IRender): void {
 
     // TODO: buffers into scene
-    if (positionBuffer.buffer.data == null) {
-      positionBuffer.buffer.createByDevice(this.device);
-      colorBuffer.buffer.createByDevice(this.device);
-      indexBuffer.buffer.createByDevice(this.device);
-    }
+    geometry.createByDevice(this.device);
 
     const renderPassDescriptor = this._pipeline.framebuffer.getRenderPassDescriptor(this.context);
 
@@ -133,9 +130,7 @@ export class Core {
     passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
     passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
 
-    passEncoder.setVertexBuffer(0, positionBuffer.buffer.data);
-    passEncoder.setVertexBuffer(1, colorBuffer.buffer.data);
-    passEncoder.setIndexBuffer(indexBuffer.buffer.data, 'uint16');
+    geometry.setToPassEncoder(passEncoder);
     passEncoder.drawIndexed(3, 1);
     passEncoder.endPass();
 
