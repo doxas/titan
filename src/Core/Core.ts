@@ -57,8 +57,6 @@ export class Core {
   private _devicePixelRatio: number;
   private _deviceWidth: number;
   private _deviceHeight: number;
-  // instance
-  private _pipeline: Pipeline;
 
   /** constructor =========================================================== */
   constructor() {
@@ -87,10 +85,6 @@ export class Core {
     const height = option?.height != null ? option.height : this.canvas.height;
     this.resize(width, height);
 
-    // initialze instance (with device)
-    this._pipeline = new Pipeline(this._deviceWidth, this._deviceHeight, this.device, this.context, this.queue);
-    this._pipeline.setup();
-
     return true;
   }
   resize(width?: number, height?: number): void {
@@ -113,20 +107,25 @@ export class Core {
     this.resetContext();
     this.resetDepthTexture();
   }
-  async setup(material: Material): Promise<Pipeline> {
-    const pipeline = await this._pipeline.setMaterial(material);
-    return pipeline;
+  async createPipeline(material: Material): Promise<Pipeline> {
+    const pipeline = new Pipeline(this._deviceWidth, this._deviceHeight, this.device, this.context, this.queue);
+    const result = await pipeline.setMaterial(material);
+    if (!result) {
+      throw new Error('failed material setting');
+    } else {
+      return pipeline;
+    }
   }
-  render(geometry: Geometry, option?: IRender): void {
+  render(pipeline: Pipeline, geometry: Geometry, option?: IRender): void {
 
     // TODO: buffers into scene
     geometry.createByDevice(this.device);
 
-    const renderPassDescriptor = this._pipeline.framebuffer.getRenderPassDescriptor(this.context);
+    const renderPassDescriptor = pipeline.framebuffer.getRenderPassDescriptor(this.context);
 
     const commandEncoder = this.device.createCommandEncoder();
     const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-    passEncoder.setPipeline(this._pipeline.renderPipeline);
+    passEncoder.setPipeline(pipeline.renderPipeline);
     passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
     passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
 

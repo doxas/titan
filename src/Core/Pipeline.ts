@@ -52,7 +52,9 @@ export class Pipeline {
   }
 
   /** chain method ========================================================== */
-  setup(): this {
+
+  /** method ================================================================ */
+  setup(): void {
     this.depthStencilState = {
       format: 'depth24plus-stencil8',
       depthWriteEnabled: true,
@@ -63,14 +65,13 @@ export class Pipeline {
     // TODO: primitive and multisample, move to prop in material
     this.primitiveState = {topology: 'triangle-list'};
     this.multisampleState = {};
-    return this;
   }
-
-  /** method ================================================================ */
-  async setMaterial(material: Material): Promise<this> {
+  async setMaterial(material: Material): Promise<boolean> {
+    let result = true;
     if (material.changed) {
       const succeeded = await material.createByDevice(this.device);
       if (succeeded) {
+        this.setup();
         this.renderPipelineDescriptor = {
           vertex: material.vertexShaderState,
           fragment: material.fragmentShaderState,
@@ -79,9 +80,11 @@ export class Pipeline {
           multisample: this.multisampleState,
         };
         this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
+      } else {
+        result = false;
       }
     }
-    return this;
+    return result;
   }
 }
 
