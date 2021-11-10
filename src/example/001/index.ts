@@ -45,12 +45,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     fragmentShaderSource: fsSource,
   };
   const material = new TITAN.Material(materialOption);
-  const pipeline = await titan.setup(material);
+  const pipeline = await titan.createPipeline(material);
 
   const render = () => {
     requestAnimationFrame(render);
     // temporary arguments...
-    titan.render(geometry);
+    titan.render(pipeline, geometry);
   };
 
   render();
