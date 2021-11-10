@@ -12,6 +12,7 @@ import { Loader } from './Utility/Loader';
 import { Logger } from './Utility/Logger';
 import { Base } from './Common/Base';
 import { Base3D } from './Common/Base3D';
+import { Node3D } from './Common/Node3D';
 import { Buffer } from './Common/Buffer';
 import { Camera } from './Common/Camera';
 import { Framebuffer } from './Common/Framebuffer';
@@ -31,6 +32,7 @@ export class TITAN {
   // common
   static get Base() {return Base;}
   static get Base3D() {return Base3D;}
+  static get Node3D() {return Node3D;}
   static get Buffer() {return Buffer;}
   static get Camera() {return Camera;}
   static get Framebuffer() {return Framebuffer;}
