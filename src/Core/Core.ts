@@ -11,6 +11,7 @@ import { IndexBuffer } from '../Common/IndexBuffer';
 import { VertexBuffer } from '../Common/VertexBuffer';
 import { Geometry } from '../Common/Geometry';
 import { Node3D } from '../Common/Node3D';
+import { Base3D } from '../Common/Base3D';
 
 export interface ICoreInitialize {
   canvas?: HTMLCanvasElement;
@@ -117,25 +118,26 @@ export class Core {
       return pipeline;
     }
   }
-  render(node: Node3D, option?: IRender): void {
+  render(scene: Scene, option?: IRender): void {
+    scene.traverse((node) => {
+      if (node instanceof Node3D) {
+        node.geometry.createByDevice(this.device);
 
-    // TODO: buffers into scene
-    node.geometry.createByDevice(this.device);
+        const renderPassDescriptor = node.pipeline.framebuffer.getRenderPassDescriptor(this.context);
 
-    const renderPassDescriptor = node.pipeline.framebuffer.getRenderPassDescriptor(this.context);
+        const commandEncoder = this.device.createCommandEncoder();
+        const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+        passEncoder.setPipeline(node.pipeline.renderPipeline);
+        passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
+        passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
 
-    const commandEncoder = this.device.createCommandEncoder();
-    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-    passEncoder.setPipeline(node.pipeline.renderPipeline);
-    passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
-    passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
+        node.geometry.setToPassEncoder(passEncoder);
+        passEncoder.drawIndexed(3, 1);
+        passEncoder.endPass();
 
-    node.geometry.setToPassEncoder(passEncoder);
-    passEncoder.drawIndexed(3, 1);
-    passEncoder.endPass();
-
-    this.queue.submit([commandEncoder.finish()]);
-
+        this.queue.submit([commandEncoder.finish()]);
+      }
+    });
   }
 
   /** private method ======================================================== */
