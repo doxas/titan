@@ -6,5 +6,5 @@ export type ForEach = {
 };
 
 export type Traverse = {
-  (base: Base3D): void;
+  (callback: any): void;
 };
