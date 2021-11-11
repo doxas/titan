@@ -1,5 +1,6 @@
 
 import { Base } from './Base';
+import { Traverse } from '../Utility/Signature';
 
 export class Base3D extends Base {
   /** static getter ========================================================= */
@@ -23,6 +24,12 @@ export class Base3D extends Base {
   /** chain method ========================================================== */
 
   /** method ================================================================ */
+  traverse(callback: Traverse): void {
+    callback(this);
+    for (let i = 0, j = this.children.length; i < j; ++i) {
+      this.children[i].traverse(callback);
+    }
+  }
 }
 
 
