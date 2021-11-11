@@ -22,6 +22,19 @@ export class Base3D extends Base {
   }
 
   /** chain method ========================================================== */
+  add(child: Base3D): this {
+    if (!this.children.includes(child)) {
+      this.children.push(child);
+    }
+    return this;
+  }
+  remove(child: Base3D): this {
+    const index = this.children.indexOf(child);
+    if (index > -1) {
+      this.children.splice(index, 1);
+    }
+    return this;
+  }
 
   /** method ================================================================ */
   traverse(callback: Traverse): void {
