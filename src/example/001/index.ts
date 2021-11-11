@@ -48,10 +48,13 @@ window.addEventListener('DOMContentLoaded', async () => {
   const pipeline = await titan.createPipeline(material);
   const node = new TITAN.Node3D(pipeline, geometry);
 
+  const scene = new TITAN.Scene();
+  scene.add(node);
+
   const render = () => {
     requestAnimationFrame(render);
     // temporary arguments...
-    titan.render(node);
+    titan.render(scene);
   };
 
   render();
