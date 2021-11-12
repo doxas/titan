@@ -46,16 +46,21 @@ window.addEventListener('DOMContentLoaded', async () => {
   };
   const material = new TITAN.Material(materialOption);
   const pipeline = await titan.createPipeline(material);
+
+  // node
   const node = new TITAN.Node3D(pipeline, geometry);
 
+  // scene
   const scene = new TITAN.Scene();
   scene.add(node);
 
+  // camera
+  // TODO
+
+  // rendering
   const render = () => {
     requestAnimationFrame(render);
-    // temporary arguments...
     titan.render(scene);
   };
-
   render();
 }, false);
