@@ -2,6 +2,7 @@
 import vsSource from './main.vert.wgsl';
 import fsSource from './main.frag.wgsl';
 import { TITAN } from '../../titan';
+import { IMaterial } from '../../Common/Material';
 
 const position = [
    0.0,  0.5,  0.0,
@@ -40,9 +41,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   const geometry = new TITAN.Geometry(geometryOption);
 
   // material
-  const materialOption = {
+  const materialOption: IMaterial = {
     vertexShaderSource: vsSource,
     fragmentShaderSource: fsSource,
+    primitiveState: {topology: 'triangle-list'},
   };
   const material = new TITAN.Material(materialOption);
   const pipeline = await titan.createPipeline(material);

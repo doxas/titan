@@ -75,6 +75,7 @@ export class Pipeline {
     if (material.changed) {
       const succeeded = await material.createByDevice(this.device);
       if (succeeded) {
+        this.latestMaterial = material;
         this.setup();
         this.renderPipelineDescriptor = {
           vertex: material.vertexShaderState,
