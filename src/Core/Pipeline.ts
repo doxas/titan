@@ -25,6 +25,7 @@ export class Pipeline {
   renderPipelineDescriptor: GPURenderPipelineDescriptor;
   renderPipeline: GPURenderPipeline;
   framebuffer: Framebuffer;
+  latestMaterial: Material;
 
   /** constructor =========================================================== */
   constructor(width: number, height: number, device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
@@ -49,22 +50,25 @@ export class Pipeline {
     depthTexture.createByDevice(this.device);
 
     this.framebuffer.setDepthStencilTexture(depthTexture.data);
+
+    this.latestMaterial = null;
   }
 
   /** chain method ========================================================== */
 
   /** method ================================================================ */
   setup(): void {
+    if (this.latestMaterial == null) {return;}
     this.depthStencilState = {
-      format: 'depth24plus-stencil8',
-      depthWriteEnabled: true,
-      depthCompare: 'less',
+      format: this.latestMaterial.depthStencilFormat,
+      depthWriteEnabled: this.latestMaterial.depthWriteEnabled,
+      depthCompare: this.latestMaterial.depthCompare,
     };
     this.pipelineLayoutDescriptor = {bindGroupLayouts: []};
     this.pipelineLayout = this.device.createPipelineLayout(this.pipelineLayoutDescriptor);
     // TODO: primitive and multisample, move to prop in material
-    this.primitiveState = {topology: 'triangle-list'};
-    this.multisampleState = {};
+    this.primitiveState = this.latestMaterial.primitiveState;
+    this.multisampleState = this.latestMaterial.multisampleState;
   }
   async setMaterial(material: Material): Promise<boolean> {
     let result = true;

@@ -12,6 +12,11 @@ export interface IMaterial {
   colorTargetStateFormat?: GPUTextureFormat;
   colorTargetStateBlend?: GPUBlendState;
   colorTargetStateWriteMask?: GPUColorWriteFlags;
+  depthStencilFormat?: GPUTextureFormat;
+  depthWriteEnabled?: boolean;
+  depthCompare?: GPUCompareFunction;
+  primitiveState?: GPUPrimitiveState;
+  multisampleState?: GPUMultisampleState;
 }
 
 export class Material extends Base {
@@ -24,6 +29,11 @@ export class Material extends Base {
     return {color, alpha};
   }
   static get COLOR_TARGET_STATE_WRITE_MASK(): GPUColorWriteFlags {return GPUColorWrite.ALL;}
+  static get DEPTH_STENCIL_FORMAT(): GPUTextureFormat {return 'depth24plus-stencil8';}
+  static get DEPTH_WRITE_ENABLED(): boolean {return true;}
+  static get DEPTH_COMPARE(): GPUCompareFunction {return 'less';}
+  static get PRIMITIVE_STATE(): GPUPrimitiveState {return {topology: 'point-list'};}
+  static get MULTISAMPLE_STATE(): GPUMultisampleState {return {};}
 
   /** static method ========================================================= */
 
@@ -51,6 +61,12 @@ export class Material extends Base {
   fragmentShaderInfo: GPUCompilationInfo;
   vertexShaderState: GPUVertexState;
   fragmentShaderState: GPUFragmentState;
+  // from pipeline
+  depthStencilFormat: GPUTextureFormat;
+  depthWriteEnabled: boolean;
+  depthCompare: GPUCompareFunction;
+  primitiveState: GPUPrimitiveState;
+  multisampleState: GPUMultisampleState;
 
   /** constructor =========================================================== */
   constructor(option: IMaterial) {
@@ -69,6 +85,11 @@ export class Material extends Base {
     this.colorTargetStateFormat = option.colorTargetStateFormat != null ? option.colorTargetStateFormat : Material.COLOR_TARGET_STATE_FORMAT;
     this.colorTargetStateBlend = option.colorTargetStateBlend != null ? option.colorTargetStateBlend : Material.COLOR_TARGET_STATE_BLEND;
     this.colorTargetStateWriteMask = option.colorTargetStateWriteMask != null ? option.colorTargetStateWriteMask : Material.COLOR_TARGET_STATE_WRITE_MASK;
+    this.depthStencilFormat = option.depthStencilFormat != null ? option.depthStencilFormat : Material.DEPTH_STENCIL_FORMAT;
+    this.depthWriteEnabled = option.depthWriteEnabled != null ? option.depthWriteEnabled : Material.DEPTH_WRITE_ENABLED;
+    this.depthCompare = option.depthCompare != null ? option.depthCompare : Material.DEPTH_COMPARE;
+    this.primitiveState = option.primitiveState != null ? option.primitiveState : Material.PRIMITIVE_STATE;
+    this.multisampleState = option.multisampleState != null ? option.multisampleState : Material.MULTISAMPLE_STATE;
     this._changed = true;
     return this;
   }
