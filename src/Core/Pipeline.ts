@@ -5,6 +5,8 @@ import { Texture } from '../Common/Texture';
 import { UniformBuffer } from '../Common/UniformBuffer';
 import { Vec4 } from '../Math/Vec4';
 
+let startTime = Date.now();
+
 export class Pipeline {
   /** static getter ========================================================= */
 
@@ -40,7 +42,7 @@ export class Pipeline {
     const framebufferOption = {
       width: window.innerWidth,
       height: window.innerHeight,
-      clearColor: new Vec4(0.3, 0.3, 0.3, 1.0),
+      clearColor: new Vec4(0.3, 0.3, 0.3, 1.0), // TODO:
     };
     this.framebuffer = new Framebuffer(framebufferOption);
 
@@ -116,6 +118,10 @@ export class Pipeline {
   }
   setToPassEncoder(passEncoder: GPURenderPassEncoder): void {
     passEncoder.setBindGroup(0, this.uniformBindGroup);
+  }
+  setToUniform(): void {
+    const t = (Date.now() - startTime) * 0.001;
+    this.queue.writeBuffer(this.uniform.buffer.data, 0, new Float32Array([0.8 + Math.sin(t) * 0.2, 0.8, 0.8, 1.0]));
   }
 }
 

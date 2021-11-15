@@ -1,6 +1,5 @@
 
 import { Base } from './Base';
-import { UniformBuffer } from './UniformBuffer';
 import { VertexAttribute } from './VertexAttribute';
 
 export interface IMaterial {
