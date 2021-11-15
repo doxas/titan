@@ -85,6 +85,20 @@ export class Pipeline {
           multisample: this.multisampleState,
         };
         this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
+
+        // TODO: if uniform exists
+        const bufferBinding: GPUBufferBinding = {buffer: material.uniform.buffer.data};
+        const bindGroup: GPUBindGroupEntry = {
+          binding: 0,
+          resource: bufferBinding,
+        };
+        const bindGroupLayouts = this.renderPipeline.getBindGroupLayout(0);
+        const bindGroupDescriptor: GPUBindGroupDescriptor = {
+          layout: bindGroupLayouts,
+          entries: [bindGroup],
+        };
+        const uniformBindGroup = this.device.createBindGroup(bindGroupDescriptor);
+        material.uniformBindGroup = uniformBindGroup;
       } else {
         result = false;
       }
