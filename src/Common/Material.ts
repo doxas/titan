@@ -62,9 +62,6 @@ export class Material extends Base {
   fragmentShaderInfo: GPUCompilationInfo;
   vertexShaderState: GPUVertexState;
   fragmentShaderState: GPUFragmentState;
-  // ???
-  uniform: UniformBuffer;
-  uniformBindGroup: GPUBindGroup;
   // from pipeline
   depthStencilFormat: GPUTextureFormat;
   depthWriteEnabled: boolean;
@@ -103,10 +100,6 @@ export class Material extends Base {
     this.vertexShaderInfo = null;
     this.fragmentShaderInfo = null;
     this._changed = false;
-    return this;
-  }
-  setToPassEncoder(passEncoder: GPURenderPassEncoder): this {
-    passEncoder.setBindGroup(0, this.uniformBindGroup);
     return this;
   }
 
@@ -164,13 +157,6 @@ export class Material extends Base {
         };
       }
     }
-
-    // TODO: if uniform exists
-    const uniformData = [1.0, 0.2, 0.2, 1.0];
-    this.uniform = new UniformBuffer({data: uniformData});
-    this.uniform.create();
-    this.uniform.buffer.createByDevice(device);
-
     return succeeded;
   }
 }

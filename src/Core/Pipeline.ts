@@ -2,6 +2,7 @@
 import { Framebuffer } from '../Common/Framebuffer';
 import { Material } from '../Common/Material';
 import { Texture } from '../Common/Texture';
+import { UniformBuffer } from '../Common/UniformBuffer';
 import { Vec4 } from '../Math/Vec4';
 
 export class Pipeline {
@@ -26,6 +27,9 @@ export class Pipeline {
   renderPipeline: GPURenderPipeline;
   framebuffer: Framebuffer;
   latestMaterial: Material;
+  // ???
+  uniform: UniformBuffer;
+  uniformBindGroup: GPUBindGroup;
 
   /** constructor =========================================================== */
   constructor(width: number, height: number, device: GPUDevice, context: GPUCanvasContext, queue: GPUQueue) {
@@ -87,7 +91,12 @@ export class Pipeline {
         this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
 
         // TODO: if uniform exists
-        const bufferBinding: GPUBufferBinding = {buffer: material.uniform.buffer.data};
+        const uniformData = [0.8, 0.8, 0.8, 1.0];
+        this.uniform = new UniformBuffer({data: uniformData});
+        this.uniform.create();
+        this.uniform.buffer.createByDevice(this.device);
+
+        const bufferBinding: GPUBufferBinding = {buffer: this.uniform.buffer.data};
         const bindGroup: GPUBindGroupEntry = {
           binding: 0,
           resource: bufferBinding,
@@ -98,12 +107,15 @@ export class Pipeline {
           entries: [bindGroup],
         };
         const uniformBindGroup = this.device.createBindGroup(bindGroupDescriptor);
-        material.uniformBindGroup = uniformBindGroup;
+        this.uniformBindGroup = uniformBindGroup;
       } else {
         result = false;
       }
     }
     return result;
+  }
+  setToPassEncoder(passEncoder: GPURenderPassEncoder): void {
+    passEncoder.setBindGroup(0, this.uniformBindGroup);
   }
 }
 

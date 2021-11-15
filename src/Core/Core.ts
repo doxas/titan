@@ -131,7 +131,7 @@ export class Core {
         passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
         passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
 
-        node.pipeline.latestMaterial.setToPassEncoder(passEncoder);
+        node.pipeline.setToPassEncoder(passEncoder);
         node.geometry.setToPassEncoder(passEncoder);
         passEncoder.drawIndexed(3, 1);
         passEncoder.endPass();
