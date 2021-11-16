@@ -1,5 +1,8 @@
 
 import { Base } from './Base';
+import { Texture } from './Texture';
+import { UniformBuffer } from './UniformBuffer';
+import { UniformSampler } from './UniformSampler';
 import { VertexAttribute } from './VertexAttribute';
 
 export interface IMaterial {
@@ -17,6 +20,21 @@ export interface IMaterial {
   depthCompare?: GPUCompareFunction;
   primitiveState?: GPUPrimitiveState;
   multisampleState?: GPUMultisampleState;
+}
+
+export interface IUniformBufferEntry {
+  name: string;
+  source: number[] | Float32Array;
+}
+
+export interface IUniformSamplerEntry {
+  name: string;
+  source: GPUSamplerDescriptor;
+}
+
+export interface IUniformTextureEntry {
+  name: string;
+  source: Texture;
 }
 
 export class Material extends Base {
@@ -67,6 +85,8 @@ export class Material extends Base {
   depthCompare: GPUCompareFunction;
   primitiveState: GPUPrimitiveState;
   multisampleState: GPUMultisampleState;
+  // uniform
+  uniformEntry: Map<string, UniformBuffer | UniformSampler | Texture>;
 
   /** constructor =========================================================== */
   constructor(option: IMaterial) {
@@ -99,6 +119,24 @@ export class Material extends Base {
     this.vertexShaderInfo = null;
     this.fragmentShaderInfo = null;
     this._changed = false;
+    return this;
+  }
+  addUniformBufferEntry(uniform: IUniformBufferEntry): this {
+    const buffer = new UniformBuffer({data: uniform.source});
+    this.uniformEntry.set(uniform.name, buffer);
+    return this;
+  }
+  addUniformSamplerEntry(uniform: IUniformSamplerEntry): this {
+    const sampler = new UniformSampler(uniform.source);
+    this.uniformEntry.set(uniform.name, sampler);
+    return this;
+  }
+  addUniformTextureEntry(uniform: IUniformTextureEntry): this {
+    this.uniformEntry.set(uniform.name, uniform.source);
+    return this;
+  }
+  removeUniformEntry(name: string): this {
+    this.uniformEntry.delete(name);
     return this;
   }
 
