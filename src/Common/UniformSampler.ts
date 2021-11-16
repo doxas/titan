@@ -14,7 +14,7 @@ export class UniformSampler extends Base {
   source: GPUTexture;
 
   /** constructor =========================================================== */
-  constructor() {
+  constructor(descriptor: GPUSamplerDescriptor) {
     super();
   }
 
