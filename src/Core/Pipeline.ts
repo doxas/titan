@@ -75,6 +75,43 @@ export class Pipeline {
     // TODO: primitive and multisample, move to prop in material
     this.primitiveState = this.latestMaterial.primitiveState;
     this.multisampleState = this.latestMaterial.multisampleState;
+
+    this.renderPipelineDescriptor = {
+      vertex: this.latestMaterial.vertexShaderState,
+      fragment: this.latestMaterial.fragmentShaderState,
+      depthStencil: this.depthStencilState,
+      primitive: this.primitiveState,
+      multisample: this.multisampleState,
+    };
+    this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
+
+    // uniform
+    if (this.latestMaterial.uniformEntry.size > 0) {
+      const entries = [];
+      this.latestMaterial.uniformEntry.forEach((uniformBuffer) => {
+        uniformBuffer.create();
+        uniformBuffer.buffer.createByDevice(this.device);
+        if (uniformBuffer.updateSource) {
+          this.queue.writeBuffer(
+            uniformBuffer.buffer.data,
+            uniformBuffer.updateOffset,
+            new Float32Array(uniformBuffer.source),
+          );
+        }
+        const bufferBinding: GPUBufferBinding = {buffer: uniformBuffer.buffer.data};
+        const bindGroup: GPUBindGroupEntry = {
+          binding: entries.length,
+          resource: bufferBinding,
+        };
+        entries.push(bindGroup);
+      });
+      const bindGroupLayouts = this.renderPipeline.getBindGroupLayout(0);
+      const bindGroupDescriptor: GPUBindGroupDescriptor = {
+        layout: bindGroupLayouts,
+        entries: entries,
+      };
+      this.uniformBindGroup = this.device.createBindGroup(bindGroupDescriptor);
+    }
   }
   async setMaterial(material: Material): Promise<boolean> {
     let result = true;
@@ -83,45 +120,19 @@ export class Pipeline {
       if (succeeded) {
         this.latestMaterial = material;
         this.setup();
-        this.renderPipelineDescriptor = {
-          vertex: material.vertexShaderState,
-          fragment: material.fragmentShaderState,
-          depthStencil: this.depthStencilState,
-          primitive: this.primitiveState,
-          multisample: this.multisampleState,
-        };
-        this.renderPipeline = this.device.createRenderPipeline(this.renderPipelineDescriptor);
-
-        // TODO: if uniform exists
-        const uniformData = [0.8, 0.8, 0.8, 1.0];
-        this.uniform = new UniformBuffer({data: uniformData});
-        this.uniform.create();
-        this.uniform.buffer.createByDevice(this.device);
-
-        const bufferBinding: GPUBufferBinding = {buffer: this.uniform.buffer.data};
-        const bindGroup: GPUBindGroupEntry = {
-          binding: 0,
-          resource: bufferBinding,
-        };
-        const bindGroupLayouts = this.renderPipeline.getBindGroupLayout(0);
-        const bindGroupDescriptor: GPUBindGroupDescriptor = {
-          layout: bindGroupLayouts,
-          entries: [bindGroup],
-        };
-        const uniformBindGroup = this.device.createBindGroup(bindGroupDescriptor);
-        this.uniformBindGroup = uniformBindGroup;
       } else {
         result = false;
+      }
+    } else {
+      if (material.isReady) {
+        this.latestMaterial = material;
+        this.setup();
       }
     }
     return result;
   }
   setToPassEncoder(passEncoder: GPURenderPassEncoder): void {
     passEncoder.setBindGroup(0, this.uniformBindGroup);
-  }
-  setToUniform(): void {
-    const t = (Date.now() - startTime) * 0.001;
-    this.queue.writeBuffer(this.uniform.buffer.data, 0, new Float32Array([0.8 + Math.sin(t) * 0.2, 0.8, 0.8, 1.0]));
   }
 }
 

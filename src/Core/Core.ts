@@ -122,6 +122,7 @@ export class Core {
     scene.traverse((node) => {
       if (node instanceof Node3D) {
         node.geometry.createByDevice(this.device);
+        node.pipeline.setup();
 
         const renderPassDescriptor = node.pipeline.framebuffer.getRenderPassDescriptor(this.context);
 
@@ -131,7 +132,6 @@ export class Core {
         passEncoder.setViewport(0, 0, this._deviceWidth, this._deviceHeight, 0, 1);
         passEncoder.setScissorRect(0, 0, this._deviceWidth, this._deviceHeight);
 
-        node.pipeline.setToUniform();
         node.pipeline.setToPassEncoder(passEncoder);
         node.geometry.setToPassEncoder(passEncoder);
         passEncoder.drawIndexed(3, 1);
