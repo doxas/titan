@@ -18,10 +18,13 @@ export class UniformBuffer extends Base {
   /** property ============================================================== */
   source: number[] | Float32Array;
   buffer: Buffer;
+  updateSource: boolean;
+  updateOffset: number;
 
   /** constructor =========================================================== */
   constructor(option: IUniformBuffer) {
     super();
+    this.updateSource = false;
     this.set(option);
   }
 
@@ -46,6 +49,12 @@ export class UniformBuffer extends Base {
       typedArray: Float32Array.from(this.source),
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
     });
+    return this;
+  }
+  update(data: number[] | Float32Array, offset: number): this {
+    this.updateSource = true;
+    this.updateOffset = offset;
+    this.source = data;
     return this;
   }
 
