@@ -86,7 +86,7 @@ export class Material extends Base {
   primitiveState: GPUPrimitiveState;
   multisampleState: GPUMultisampleState;
   // uniform
-  uniformEntry: Map<string, UniformBuffer>;
+  uniformEntry: Map<string, UniformBuffer | UniformSampler | Texture>;
   // todo
   isReady: boolean;
 
@@ -130,23 +130,29 @@ export class Material extends Base {
     this.uniformEntry.set(uniform.name, buffer);
     return this;
   }
-  // addUniformSamplerEntry(uniform: IUniformSamplerEntry): this {
-  //   const sampler = new UniformSampler(uniform.source);
-  //   this.uniformEntry.set(uniform.name, sampler);
-  //   return this;
-  // }
-  // addUniformTextureEntry(uniform: IUniformTextureEntry): this {
-  //   this.uniformEntry.set(uniform.name, uniform.source);
-  //   return this;
-  // }
+  addUniformSamplerEntry(uniform: IUniformSamplerEntry): this {
+    const sampler = new UniformSampler(uniform.source);
+    this.uniformEntry.set(uniform.name, sampler);
+    return this;
+  }
+  addUniformTextureEntry(uniform: IUniformTextureEntry): this {
+    this.uniformEntry.set(uniform.name, uniform.source);
+    return this;
+  }
   removeUniformEntry(name: string): this {
     this.uniformEntry.delete(name);
     return this;
   }
   updateUniformBufferEntry(name: string, data: number[] | Float32Array, offset: number = 0): this {
-    const buffer = this.uniformEntry.get(name);
-    if (buffer != null) {
-      buffer.update(data, offset);
+    const entry = this.uniformEntry.get(name);
+    if (entry != null) {
+      if (entry instanceof UniformBuffer) {
+        entry.update(data, offset);
+      } else if(entry instanceof UniformSampler) {
+        // TODO
+      } else if(entry instanceof Texture) {
+        // TODO
+      }
     }
     return this;
   }

@@ -3,9 +3,8 @@ import { Framebuffer } from '../Common/Framebuffer';
 import { Material } from '../Common/Material';
 import { Texture } from '../Common/Texture';
 import { UniformBuffer } from '../Common/UniformBuffer';
+import { UniformSampler } from '../Common/UniformSampler';
 import { Vec4 } from '../Math/Vec4';
-
-let startTime = Date.now();
 
 export class Pipeline {
   /** static getter ========================================================= */
@@ -88,22 +87,29 @@ export class Pipeline {
     // uniform
     if (this.latestMaterial.uniformEntry.size > 0) {
       const entries = [];
-      this.latestMaterial.uniformEntry.forEach((uniformBuffer) => {
-        uniformBuffer.create();
-        uniformBuffer.buffer.createByDevice(this.device);
-        if (uniformBuffer.updateSource) {
-          this.queue.writeBuffer(
-            uniformBuffer.buffer.data,
-            uniformBuffer.updateOffset,
-            new Float32Array(uniformBuffer.source),
-          );
+      this.latestMaterial.uniformEntry.forEach((entry) => {
+        if (entry instanceof UniformBuffer) {
+          const uniformBuffer = entry;
+          uniformBuffer.create();
+          uniformBuffer.buffer.createByDevice(this.device);
+          if (uniformBuffer.updateSource) {
+            this.queue.writeBuffer(
+              uniformBuffer.buffer.data,
+              uniformBuffer.updateOffset,
+              new Float32Array(uniformBuffer.source),
+            );
+          }
+          const bufferBinding: GPUBufferBinding = {buffer: uniformBuffer.buffer.data};
+          const bindGroup: GPUBindGroupEntry = {
+            binding: entries.length,
+            resource: bufferBinding,
+          };
+          entries.push(bindGroup);
+        } else if(entry instanceof UniformSampler) {
+          // TODO
+        } else if(entry instanceof Texture) {
+          // TODO
         }
-        const bufferBinding: GPUBufferBinding = {buffer: uniformBuffer.buffer.data};
-        const bindGroup: GPUBindGroupEntry = {
-          binding: entries.length,
-          resource: bufferBinding,
-        };
-        entries.push(bindGroup);
       });
       const bindGroupLayouts = this.renderPipeline.getBindGroupLayout(0);
       const bindGroupDescriptor: GPUBindGroupDescriptor = {
@@ -135,5 +141,3 @@ export class Pipeline {
     passEncoder.setBindGroup(0, this.uniformBindGroup);
   }
 }
-
-
