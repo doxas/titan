@@ -86,11 +86,15 @@ export class Material extends Base {
   primitiveState: GPUPrimitiveState;
   multisampleState: GPUMultisampleState;
   // uniform
-  uniformEntry: Map<string, UniformBuffer | UniformSampler | Texture>;
+  uniformEntry: Map<string, UniformBuffer>;
+  // todo
+  isReady: boolean;
 
   /** constructor =========================================================== */
   constructor(option: IMaterial) {
     super();
+    this.uniformEntry = new Map();
+    this.isReady = false;
     this.set(option);
   }
 
@@ -126,17 +130,24 @@ export class Material extends Base {
     this.uniformEntry.set(uniform.name, buffer);
     return this;
   }
-  addUniformSamplerEntry(uniform: IUniformSamplerEntry): this {
-    const sampler = new UniformSampler(uniform.source);
-    this.uniformEntry.set(uniform.name, sampler);
-    return this;
-  }
-  addUniformTextureEntry(uniform: IUniformTextureEntry): this {
-    this.uniformEntry.set(uniform.name, uniform.source);
-    return this;
-  }
+  // addUniformSamplerEntry(uniform: IUniformSamplerEntry): this {
+  //   const sampler = new UniformSampler(uniform.source);
+  //   this.uniformEntry.set(uniform.name, sampler);
+  //   return this;
+  // }
+  // addUniformTextureEntry(uniform: IUniformTextureEntry): this {
+  //   this.uniformEntry.set(uniform.name, uniform.source);
+  //   return this;
+  // }
   removeUniformEntry(name: string): this {
     this.uniformEntry.delete(name);
+    return this;
+  }
+  updateUniformBufferEntry(name: string, data: number[] | Float32Array, offset: number = 0): this {
+    const buffer = this.uniformEntry.get(name);
+    if (buffer != null) {
+      buffer.update(data, offset);
+    }
     return this;
   }
 
@@ -194,6 +205,7 @@ export class Material extends Base {
         };
       }
     }
+    this.isReady = succeeded;
     return succeeded;
   }
 }
