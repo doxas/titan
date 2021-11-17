@@ -47,6 +47,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     primitiveState: {topology: 'triangle-list'},
   };
   const material = new TITAN.Material(materialOption);
+  material.addUniformBufferEntry({name: 'globalColors', source: [0.5, 0.5, 0.5, 1.0]});
+  // pipeline
   const pipeline = await titan.createPipeline(material);
 
   // node
@@ -60,8 +62,13 @@ window.addEventListener('DOMContentLoaded', async () => {
   // TODO
 
   // rendering
+  const startTime = Date.now();
   const render = () => {
     requestAnimationFrame(render);
+
+    const nowTime = (Date.now() - startTime) * 0.001;
+    material.updateUniformBufferEntry('globalColors', [0.5 + Math.sin(nowTime) * 0.5, 0.5, 0.5, 1.0]);
+
     titan.render(scene);
   };
   render();
