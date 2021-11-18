@@ -24,6 +24,8 @@ export class VertexBuffer extends Base {
   /** constructor =========================================================== */
   constructor(option: IVertexBuffer) {
     super();
+    this.name = 'VertexBuffer';
+
     this.set(option);
   }
 
@@ -54,5 +56,3 @@ export class VertexBuffer extends Base {
 
   /** method ================================================================ */
 }
-
-

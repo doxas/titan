@@ -28,8 +28,6 @@ export class Pipeline {
   renderPipeline: GPURenderPipeline;
   framebuffer: Framebuffer;
   latestMaterial: Material;
-  // ???
-  uniform: UniformBuffer;
   uniformBindGroup: GPUBindGroup;
 
   /** constructor =========================================================== */
@@ -71,7 +69,6 @@ export class Pipeline {
     };
     this.pipelineLayoutDescriptor = {bindGroupLayouts: []};
     this.pipelineLayout = this.device.createPipelineLayout(this.pipelineLayoutDescriptor);
-    // TODO: primitive and multisample, move to prop in material
     this.primitiveState = this.latestMaterial.primitiveState;
     this.multisampleState = this.latestMaterial.multisampleState;
 
@@ -105,9 +102,9 @@ export class Pipeline {
             resource: bufferBinding,
           };
           entries.push(bindGroup);
-        } else if(entry instanceof UniformSampler) {
+        } else if (entry instanceof UniformSampler) {
           // TODO
-        } else if(entry instanceof Texture) {
+        } else if (entry instanceof Texture) {
           // TODO
         }
       });

@@ -93,6 +93,8 @@ export class Material extends Base {
   /** constructor =========================================================== */
   constructor(option: IMaterial) {
     super();
+    this.name = 'Material';
+
     this.uniformEntry = new Map();
     this.isReady = false;
     this.set(option);
@@ -215,5 +217,3 @@ export class Material extends Base {
     return succeeded;
   }
 }
-
-

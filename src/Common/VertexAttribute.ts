@@ -44,6 +44,8 @@ export class VertexAttribute extends Base {
   /** constructor =========================================================== */
   constructor(option: IVertexAttribute) {
     super();
+    this.name = 'VertexAttribute';
+
     this.set(option);
   }
 
@@ -79,5 +81,3 @@ export class VertexAttribute extends Base {
 
   /** method ================================================================ */
 }
-
-

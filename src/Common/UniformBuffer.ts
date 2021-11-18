@@ -24,6 +24,8 @@ export class UniformBuffer extends Base {
   /** constructor =========================================================== */
   constructor(option: IUniformBuffer) {
     super();
+    this.name = 'UniformBuffer';
+
     this.updateSource = false;
     this.set(option);
   }
@@ -60,5 +62,3 @@ export class UniformBuffer extends Base {
 
   /** method ================================================================ */
 }
-
-

@@ -19,6 +19,7 @@ export class Node3D extends Base3D {
   /** constructor =========================================================== */
   constructor(pipeline: Pipeline, geometry: Geometry) {
     super();
+    this.name = 'Node3D';
 
     this.pipeline = pipeline;
     this.geometry = geometry;
@@ -28,5 +29,3 @@ export class Node3D extends Base3D {
 
   /** method ================================================================ */
 }
-
-

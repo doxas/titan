@@ -54,6 +54,8 @@ export class Texture extends Base {
   /** constructor =========================================================== */
   constructor(option: ITexture) {
     super();
+    this.name = 'Texture';
+
     this.set(option);
   }
 
@@ -95,5 +97,3 @@ export class Texture extends Base {
     // TODO: exists source
   }
 }
-
-

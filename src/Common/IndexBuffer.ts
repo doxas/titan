@@ -22,6 +22,8 @@ export class IndexBuffer extends Base {
   /** constructor =========================================================== */
   constructor(option: IIndexBuffer) {
     super();
+    this.name = 'IndexBuffer';
+
     this.set(option);
   }
 
@@ -51,5 +53,3 @@ export class IndexBuffer extends Base {
 
   /** method ================================================================ */
 }
-
-

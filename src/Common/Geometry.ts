@@ -26,6 +26,8 @@ export class Geometry extends Base {
   /** constructor =========================================================== */
   constructor(option: IGeometry) {
     super();
+    this.name = 'Geometry';
+
     this.set(option);
   }
 
@@ -82,5 +84,3 @@ export class Geometry extends Base {
     this.indexBuffer.buffer.createByDevice(device);
   }
 }
-
-

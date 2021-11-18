@@ -16,11 +16,10 @@ export class UniformSampler extends Base {
   /** constructor =========================================================== */
   constructor(descriptor: GPUSamplerDescriptor) {
     super();
+    this.name = 'UniformSampler';
   }
 
   /** chain method ========================================================== */
 
   /** method ================================================================ */
 }
-
-

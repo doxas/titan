@@ -17,6 +17,7 @@ export class Base3D extends Base {
   /** constructor =========================================================== */
   constructor() {
     super();
+    this.name = 'Base';
 
     this.children = [];
   }
@@ -44,5 +45,3 @@ export class Base3D extends Base {
     }
   }
 }
-
-

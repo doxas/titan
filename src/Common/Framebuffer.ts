@@ -36,6 +36,8 @@ export class Framebuffer extends Base {
   /** constructor =========================================================== */
   constructor(option: IFramebuffer) {
     super();
+    this.name = 'Framebuffer';
+
     this._isDefaultColor = true;
     this._isDefaultDepthStencil = true;
     this.set(option);
@@ -134,5 +136,3 @@ export class Framebuffer extends Base {
     return renderPassDescriptor;
   }
 }
-
-

@@ -29,6 +29,8 @@ export class Buffer extends Base {
   /** constructor =========================================================== */
   constructor(option: IBuffer) {
     super();
+    this.name = 'Buffer';
+
     this.set(option);
   }
 
@@ -68,5 +70,3 @@ export class Buffer extends Base {
     this._buffer.unmap();
   }
 }
-
-
