@@ -33,6 +33,9 @@ export class Mat2 {
   get m01(): number {return this.value[1];}
   get m10(): number {return this.value[2];}
   get m11(): number {return this.value[3];}
+  get array(): Float32Array {
+    return this.value;
+  }
 
   /** setter ================================================================ */
   set m00(v: number) {this.value[0] = v;}

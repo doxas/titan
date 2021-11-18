@@ -273,6 +273,9 @@ export class Mat4 {
   get m31(): number {return this.value[13];}
   get m32(): number {return this.value[14];}
   get m33(): number {return this.value[15];}
+  get array(): Float32Array {
+    return this.value;
+  }
 
   /** setter ================================================================ */
   set m00(v: number) {this.value[ 0] = v;}

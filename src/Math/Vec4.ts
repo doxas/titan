@@ -16,6 +16,9 @@ export class Vec4 {
   get length(): number {
     return Math.hypot(this.x, this.y, this.z, this.w);
   }
+  get array(): Float32Array {
+    return this.value;
+  }
 
   /** setter ================================================================ */
   set x(v: number) {this.value[0] = v;}

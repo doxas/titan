@@ -65,6 +65,9 @@ export class Mat3 {
   get m20(): number {return this.value[6];}
   get m21(): number {return this.value[7];}
   get m22(): number {return this.value[8];}
+  get array(): Float32Array {
+    return this.value;
+  }
 
   /** setter ================================================================ */
   set m00(v: number) {this.value[0] = v;}
