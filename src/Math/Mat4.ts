@@ -4,7 +4,7 @@ import { Vec3 } from './Vec3';
 
 export class Mat4 {
   /** static getter ========================================================= */
-  static get DIMENSION_COUNT(): number {return 3;}
+  static get DIMENSION_COUNT(): number {return 4;}
 
   /** static method ========================================================= */
   static zero(): Mat4 {return new Mat4(
