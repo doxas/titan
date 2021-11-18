@@ -135,6 +135,7 @@ export class Pipeline {
     return result;
   }
   setToPassEncoder(passEncoder: GPURenderPassEncoder): void {
+    if (this.uniformBindGroup == null) {return;}
     passEncoder.setBindGroup(0, this.uniformBindGroup);
   }
 }
