@@ -12,6 +12,7 @@ import { VertexBuffer } from '../Common/VertexBuffer';
 import { Geometry } from '../Common/Geometry';
 import { Node3D } from '../Common/Node3D';
 import { Base3D } from '../Common/Base3D';
+import { Mat4 } from '../Math/Mat4';
 
 export interface ICoreInitialize {
   canvas?: HTMLCanvasElement;
@@ -118,7 +119,19 @@ export class Core {
       return pipeline;
     }
   }
-  render(scene: Scene, option?: IRender): void {
+  render(scene: Scene, camera?: Camera, option?: IRender): void {
+    if (camera != null) {
+      camera.set({
+        width: this._deviceWidth,
+        height: this._deviceHeight,
+      });
+      camera.update();
+    }
+    const vMatrix = camera.viewMatrix ?? Mat4.identityMatrix();
+    const pMatrix = camera.projectionMatrix ?? Mat4.identityMatrix();
+    const pvMatrix = pMatrix.multiply(vMatrix);
+    // TODO: set matrix into pipeline
+
     scene.traverse((node) => {
       if (node instanceof Node3D) {
         node.geometry.createByDevice(this.device);
