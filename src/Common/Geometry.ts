@@ -59,8 +59,8 @@ export class Geometry extends Base {
       passEncoder.setVertexBuffer(index, vertexBuffer.buffer.data);
     });
     if (this.indexBuffer != null) {
-      // TODO: not uint16 type
-      passEncoder.setIndexBuffer(this.indexBuffer.buffer.data, 'uint16');
+      // TODO: not uint32 type
+      passEncoder.setIndexBuffer(this.indexBuffer.buffer.data, 'uint32');
     }
     return this;
   }
@@ -78,7 +78,7 @@ export class Geometry extends Base {
       this.vertexBuffer[index].buffer.createByDevice(device);
     });
     const option = {
-      typedArray: this.indexBufferSource,
+      typedArray: new Uint32Array(this.indexBufferSource),
     };
     this.indexBuffer = new IndexBuffer(option).create();
     this.indexBuffer.buffer.createByDevice(device);

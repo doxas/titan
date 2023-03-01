@@ -116,12 +116,13 @@ export class Framebuffer extends Base {
       const view: GPUTextureView = this._depthStencilTextureView;
       const depthLoadOp: GPULoadOp = 'clear';
       const depthStoreOp: GPUStoreOp = 'store';
+      const depthClearValue: number = 1.0;
       const depthReadOnly: boolean = false;
       const stencilLoadOp: GPULoadOp = 'clear';
       const stencilStoreOp: GPUStoreOp = 'store';
       const stencilReadOnly: boolean = false;
       this._depthStencilAttachment = {
-        view, depthLoadOp, depthStoreOp, depthReadOnly, stencilLoadOp, stencilStoreOp, stencilReadOnly,
+        view, depthClearValue, depthLoadOp, depthStoreOp, depthReadOnly, stencilLoadOp, stencilStoreOp, stencilReadOnly,
       };
     } else {
       this._depthStencilAttachment = null;

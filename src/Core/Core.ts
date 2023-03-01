@@ -147,7 +147,7 @@ export class Core {
 
         node.pipeline.setToPassEncoder(passEncoder);
         node.geometry.setToPassEncoder(passEncoder);
-        passEncoder.drawIndexed(3, 1);
+        passEncoder.drawIndexed(3);
         passEncoder.end();
 
         this.queue.submit([commandEncoder.finish()]);

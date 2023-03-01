@@ -2,7 +2,7 @@
 import { Base } from './Base';
 
 export interface IBuffer {
-  typedArray: Float32Array | Uint16Array;
+  typedArray: Float32Array | Uint32Array;
   usage: GPUBufferUsageFlags;
 }
 
@@ -22,7 +22,7 @@ export class Buffer extends Base {
   /** setter ================================================================ */
 
   /** property ============================================================== */
-  private _array: Float32Array | Uint16Array;
+  private _array: Float32Array | Uint32Array;
   private _usage: GPUBufferUsageFlags;
   private _buffer: GPUBuffer;
 
@@ -57,16 +57,19 @@ export class Buffer extends Base {
     if (!this._changed) {return;}
     this.destroy();
     const descriptor: GPUBufferDescriptor = {
-      size: (this._array.byteLength + 3) & ~3,
+      size: this._array.byteLength,
       mappedAtCreation: true,
       usage: this._usage,
     };
     this._buffer = device.createBuffer(descriptor);
 
-    const writeArray = this._array instanceof Uint16Array
-      ? new Uint16Array(this._buffer.getMappedRange())
-      : new Float32Array(this._buffer.getMappedRange());
-    writeArray.set(this._array);
+    if (this._array instanceof Uint32Array === true) {
+      const writeArray = new Uint32Array(this._buffer.getMappedRange())
+      writeArray.set(this._array);
+    } else {
+      const writeArray = new Float32Array(this._buffer.getMappedRange());
+      writeArray.set(this._array);
+    }
     this._buffer.unmap();
   }
 }

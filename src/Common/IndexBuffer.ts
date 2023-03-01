@@ -3,7 +3,7 @@ import { Base } from './Base';
 import { Buffer } from './Buffer';
 
 export interface IIndexBuffer {
-  typedArray: number[] | Uint16Array;
+  typedArray: number[] | Uint32Array;
 }
 
 export class IndexBuffer extends Base {
@@ -16,7 +16,7 @@ export class IndexBuffer extends Base {
   /** setter ================================================================ */
 
   /** property ============================================================== */
-  source: number[] | Uint16Array;
+  source: number[] | Uint32Array;
   buffer: Buffer;
 
   /** constructor =========================================================== */
@@ -45,7 +45,7 @@ export class IndexBuffer extends Base {
     if (!this._changed) {return;}
     this.destroy();
     this.buffer = new Buffer({
-      typedArray: Uint16Array.from(this.source),
+      typedArray: Uint32Array.from(this.source),
       usage: GPUBufferUsage.INDEX,
     });
     return this;
