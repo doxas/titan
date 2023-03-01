@@ -167,7 +167,7 @@ export class Material extends Base {
     if (this.vertexShaderSource !== '') {
       const code = this.vertexShaderSource;
       const sourceMap = this.vertexShaderSourceMap;
-      const descriptor: GPUShaderModuleDescriptor = {code, sourceMap};
+      const descriptor: GPUShaderModuleDescriptor = sourceMap != null ? {code, sourceMap} : {code};
       this.vertexShaderModule = device.createShaderModule(descriptor);
       this.vertexShaderInfo = await this.vertexShaderModule.compilationInfo();
       if (this.vertexShaderInfo.messages.length > 0) {
@@ -194,7 +194,7 @@ export class Material extends Base {
     if (this.fragmentShaderSource !== '') {
       const code = this.fragmentShaderSource;
       const sourceMap = this.fragmentShaderSourceMap;
-      const descriptor: GPUShaderModuleDescriptor = {code, sourceMap};
+      const descriptor: GPUShaderModuleDescriptor = sourceMap != null ? {code, sourceMap} : {code};
       this.fragmentShaderModule = device.createShaderModule(descriptor);
       this.fragmentShaderInfo = await this.fragmentShaderModule.compilationInfo();
       if (this.fragmentShaderInfo.messages.length > 0) {

@@ -73,6 +73,7 @@ export class Pipeline {
     this.multisampleState = this.latestMaterial.multisampleState;
 
     this.renderPipelineDescriptor = {
+      layout: 'auto',
       vertex: this.latestMaterial.vertexShaderState,
       fragment: this.latestMaterial.fragmentShaderState,
       depthStencil: this.depthStencilState,

@@ -127,8 +127,8 @@ export class Core {
       });
       camera.update();
     }
-    const vMatrix = camera.viewMatrix ?? Mat4.identityMatrix();
-    const pMatrix = camera.projectionMatrix ?? Mat4.identityMatrix();
+    const vMatrix = camera?.viewMatrix ?? Mat4.identityMatrix();
+    const pMatrix = camera?.projectionMatrix ?? Mat4.identityMatrix();
     const pvMatrix = pMatrix.multiply(vMatrix);
     // TODO: set matrix into pipeline
 
@@ -148,7 +148,7 @@ export class Core {
         node.pipeline.setToPassEncoder(passEncoder);
         node.geometry.setToPassEncoder(passEncoder);
         passEncoder.drawIndexed(3, 1);
-        passEncoder.endPass();
+        passEncoder.end();
 
         this.queue.submit([commandEncoder.finish()]);
       }

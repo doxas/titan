@@ -108,19 +108,20 @@ export class Framebuffer extends Base {
     const colorTextureView = this._isDefaultColor ? colorTexture.createView() : this._colorTextureView;
     
     const view: GPUTextureView = colorTextureView;
-    const loadValue: GPUColor = {r: this.clearColor.x, g: this.clearColor.y, b: this.clearColor.z, a: this.clearColor.w};
+    const clearValue: GPUColor = {r: this.clearColor.x, g: this.clearColor.y, b: this.clearColor.z, a: this.clearColor.w};
+    const loadOp: GPULoadOp = 'clear';
     const storeOp: GPUStoreOp = 'store';
-    this._colorAttachment = {view, loadValue, storeOp};
+    this._colorAttachment = {view, clearValue, loadOp, storeOp};
     if (this._depthStencilTexture != null) {
       const view: GPUTextureView = this._depthStencilTextureView;
-      const depthLoadValue: GPULoadOp | number = 1;
+      const depthLoadOp: GPULoadOp = 'clear';
       const depthStoreOp: GPUStoreOp = 'store';
       const depthReadOnly: boolean = false;
-      const stencilLoadValue: GPULoadOp | GPUStencilValue = 'load';
+      const stencilLoadOp: GPULoadOp = 'clear';
       const stencilStoreOp: GPUStoreOp = 'store';
       const stencilReadOnly: boolean = false;
       this._depthStencilAttachment = {
-        view, depthLoadValue, depthStoreOp, depthReadOnly, stencilLoadValue, stencilStoreOp, stencilReadOnly,
+        view, depthLoadOp, depthStoreOp, depthReadOnly, stencilLoadOp, stencilStoreOp, stencilReadOnly,
       };
     } else {
       this._depthStencilAttachment = null;
