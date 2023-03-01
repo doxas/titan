@@ -1,7 +1,7 @@
 const path = require('path');
-const glob = require('glob');
+const { globSync } = require('glob');
 
-const entryArray = glob.sync('example/**/*.ts', {
+const entryArray = globSync('example/**/*.ts', {
   cwd: path.resolve(__dirname, 'src'),
 });
 const entries = {};
